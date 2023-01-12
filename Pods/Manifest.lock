@@ -4,25 +4,29 @@ PODS:
   - GoogleMaps/Base (7.2.0)
   - GoogleMaps/Maps (7.2.0):
     - GoogleMaps/Base
+  - IQKeyboardManagerSwift (6.3.0)
   - TextFieldEffects (1.6.0)
   - Toaster (2.3.0)
 
 DEPENDENCIES:
   - GoogleMaps
+  - IQKeyboardManagerSwift (= 6.3.0)
   - TextFieldEffects
   - Toaster
 
 SPEC REPOS:
   trunk:
     - GoogleMaps
+    - IQKeyboardManagerSwift
     - TextFieldEffects
     - Toaster
 
 SPEC CHECKSUMS:
   GoogleMaps: 65ce5426e2398bb81433c8076f2ab6419c2c5537
+  IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   TextFieldEffects: 529b8aff706fb40f82c41c780c0777941a893796
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
 
-PODFILE CHECKSUM: 7267ad2c47cee18b232e3a33ae88f379de42b3ca
+PODFILE CHECKSUM: 79398d9af19512ee2304d302e108b12bf980de49
 
 COCOAPODS: 1.11.3

@@ -92,8 +92,9 @@ extension ViewController {
             marker.title = "I added this with a long tap"
             marker.snippet = ""
             marker.identifier = stadium.videoUrl
+            marker.VideoNSData = stadium.video
             marker.map = googleMapView
-            
+            //Add NSDAta
             
             /*let annotations = MyPointAnnotation()
             annotations.identifier = stadium.videoUrl
@@ -107,10 +108,21 @@ extension ViewController {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let marker = marker as? MyGMSMarker {
             if let string = marker.identifier {
+                
+                let data = marker.VideoNSData
+                let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("yourvidename.mp4")
+
+                do {
+                    try data?.write(to: cacheURL, options: .atomicWrite)
+                } catch let err {
+                    print("Failed with error:", err)
+                }
+
+                
                 print(string)
                 let fileURL = NSURL(fileURLWithPath:"\(string)")
                 print(fileURL)
-                playerview = AVPlayer(url: string)
+                playerview = AVPlayer(url: cacheURL)
                 playerviewcontroller.player = playerview
                 self.present(playerviewcontroller, animated: true){
                     self.playerviewcontroller.player?.play()
@@ -231,4 +243,5 @@ extension ViewController: VideoServiceDelegate {
 class MyGMSMarker: GMSMarker {
     
     var identifier: URL?
+    var VideoNSData: Data?
 }

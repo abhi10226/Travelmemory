@@ -7,6 +7,7 @@ target 'TravelMemoryProject' do
 pod 'Toaster'
 pod 'GoogleMaps'
 pod 'TextFieldEffects'
+pod 'IQKeyboardManagerSwift', '6.3.0'
   # Pods for TravelMemoryProject
 
 end

@@ -206,6 +206,15 @@ extension VideoService: UIImagePickerControllerDelegate, UINavigationControllerD
                             newItem.longitude = Double(longitude)
                             newItem.isSync = false
                             newItem.createdAt = Date.currentDate()
+                            
+                            do {
+                                guard let URL = success as? URL else { return  }
+                                let videoData = try Data(contentsOf: URL)
+                                newItem.video = videoData
+                            } catch {
+                                debugPrint("Couldn't get Data from URL")
+                            }
+                            
                             (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
                         }else {
                             Toast(text: "Please allow location access to save your video").show()
@@ -224,8 +233,12 @@ extension VideoService: UIImagePickerControllerDelegate, UINavigationControllerD
 extension AVMutableComposition {
     
     func mergeVideo(_ urls: [URL], completion: @escaping (_ url: URL?, _ error: Error?) -> Void) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        /*guard let documentDirectory = FileManager.default.urls(for: ., in: .userDomainMask).first else {
             completion(nil, nil)
+            return
+        }*/
+        guard let documentDirectory = URL.createFolder(folderName: "TRAVELMEMORY") else {
+            print("Can't create url")
             return
         }
         
@@ -346,4 +359,32 @@ extension AVMutableComposition {
         return (assetOrientation, isPortrait)
     }
     
+}
+extension URL {
+    static func createFolder(folderName: String) -> URL? {
+        let fileManager = FileManager.default
+        // Get document directory for device, this should succeed
+        if let documentDirectory = fileManager.urls(for: .documentDirectory,
+                                                    in: .userDomainMask).first {
+            // Construct a URL with desired folder name
+            let folderURL = documentDirectory.appendingPathComponent(folderName)
+            // If folder URL does not exist, create it
+            if !fileManager.fileExists(atPath: folderURL.path) {
+                do {
+                    // Attempt to create folder
+                    try fileManager.createDirectory(atPath: folderURL.path,
+                                                    withIntermediateDirectories: true,
+                                                    attributes: nil)
+                } catch {
+                    // Creation failed. Print error & return nil
+                    print(error.localizedDescription)
+                    return nil
+                }
+            }
+            // Folder either exists, or was created. Return URL
+            return folderURL
+        }
+        // Will only be called if document directory not found
+        return nil
+    }
 }
