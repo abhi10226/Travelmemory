@@ -45,6 +45,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         _appDelegator.window = self.window
         _appDelegator.prepareForDirectLogin()
+        if _userDefault.bool(forKey: userDefaultIsUploadedToCloud) {
+            _appDelegator.uploadSingleVideo()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

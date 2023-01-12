@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import TextFieldEffects
 import Toaster
-class loginVC: UIViewController {
+class loginVC: CommonViewController {
     
     @IBOutlet weak var txtEmail: HoshiTextField!
     @IBOutlet weak var txtPassword: HoshiTextField!

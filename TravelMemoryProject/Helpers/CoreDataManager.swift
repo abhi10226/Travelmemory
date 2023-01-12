@@ -31,6 +31,65 @@ class CoreDataManager {
     return container
   }()
     
+    func deleteSingleData(fileName:String){
+        let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+        
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
+        fetchRequest.predicate = NSPredicate(format: "fileName = %@",fileName)
+        
+        do {
+            let test = try manageContext!.fetch(fetchRequest)
+            
+            let objectUpdate = test[0] as! NSManagedObject
+            manageContext!.delete(objectUpdate)
+            
+            do {
+                try manageContext!.save()
+                
+            } catch  {
+                print(error)
+            }
+            
+        } catch  {
+            print(error)
+        }
+        
+    }
+    
+    func deleteAll() {
+        /*get reference to appdelegate file*/
+        
+        
+        /*get reference of managed object context*/
+        let managedContext = CoreDataManager.sharedManager.persistentContainer.viewContext
+        
+        /*init fetch request*/
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TravelMemory")
+        
+        /*pass your condition with NSPredicate. We only want to delete those records which match our condition*/
+        
+        do {
+            
+            /*managedContext.fetch(fetchRequest) will return array of person objects [personObjects]*/
+            if let item = try managedContext.fetch(fetchRequest) as? [TravelMemory] {
+                for i in item {
+                    if i.isSync {
+                        /*call delete method(aManagedObjectInstance)*/
+                        /*here i is managed object instance*/
+                        managedContext.delete(i)
+                        
+                        /*finally save the contexts*/
+                        try managedContext.save()
+                        
+                        /*update your array also*/
+                    }
+                }
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+    }
     
     func fetchAllPersons() -> [TravelMemory]?{
       /*Before you can do anything with Core Data, you need a managed object context. */

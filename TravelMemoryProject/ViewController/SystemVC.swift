@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SystemVC: UIViewController {
+class SystemVC: CommonViewController {
 
     
     @IBOutlet weak var removeFromDeviceSwitch: UISwitch!
@@ -22,6 +22,8 @@ class SystemVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        autoUpload.isOn = _userDefault.bool(forKey: userDefaultIsUploadedToCloud) ? true : false
+        removeFromDeviceSwitch.isOn = _userDefault.bool(forKey: userDefaultRemoveFromDevice) ? true : false
         if let userDetail = LoginModel.getUserDetailFromUserDefault() {
             lblGuestMode.text = userDetail.data.name
         }else {
@@ -41,10 +43,16 @@ extension SystemVC {
     }
     @IBAction func autoUploadTapped(_ sender: Any) {
         UserDefaults.standard.set(autoUpload.isOn, forKey: userDefaultIsUploadedToCloud)
+        if _userDefault.bool(forKey: userDefaultIsUploadedToCloud) {
+            _appDelegator.uploadSingleVideo()
+        }
     }
     
     @IBAction func removeFromDeviceTapped(_ sender: Any) {
         UserDefaults.standard.set(removeFromDeviceSwitch.isOn, forKey: userDefaultRemoveFromDevice)
+        if _userDefault.bool(forKey: userDefaultRemoveFromDevice) {
+            CoreDataManager.sharedManager.deleteAll()
+        }
     }
     
     @IBAction func btnLogoutTapped(_ sender: Any) {
@@ -57,8 +65,3 @@ extension SystemVC {
     }
 }
 
-extension UIViewController {
-    func startUplodingVideo() {
-        
-    }
-}

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GuestVC: UIViewController {
+class GuestVC: CommonViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

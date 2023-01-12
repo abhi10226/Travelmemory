@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+
+        
         GMSServices.provideAPIKey("AIzaSyDhLgfTwASyc_Vs8UN3XuylZK0UO2PN5K8")
         IQKeyboardManager.shared.enable = true
         NFX.sharedInstance().start()
@@ -26,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else{
             prepareForDirectLogin()
         }
-                
         return true
     }
     

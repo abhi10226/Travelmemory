@@ -10,7 +10,7 @@ import MapKit
 import AVKit
 import AVFoundation
 import GoogleMaps
-class ViewController: UIViewController,CLLocationManagerDelegate, GMSMapViewDelegate {
+class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapViewDelegate {
     //MARK: - IBOutlet
     @IBOutlet weak var googleMapView: GMSMapView!
     @IBOutlet weak var mapKitView: MKMapView!
@@ -46,6 +46,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate, GMSMapViewDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        arrData = []
+        googleMapView.clear()
         fetchCoreData()
         createDirectoryPath()
     }

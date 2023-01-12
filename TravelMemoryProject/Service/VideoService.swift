@@ -36,8 +36,14 @@ class VideoService: NSObject {
         super.init()
         // determineMyCurrentLocation()
         fetchUserLocation()
+       
     }
     
+    @objc func stopVideoRecording() {
+        isReversebtnTapped = false
+        StopVideoBtnTap = true
+        picker.stopVideoCapture()
+    }
 }
 
 extension VideoService {
@@ -145,6 +151,7 @@ extension VideoService {
                 
                 picker.startVideoCapture()
                 Toast(text: "Recording Started").show()
+                Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.stopVideoRecording), userInfo: nil, repeats: false)
                 completion?()
             }
         }

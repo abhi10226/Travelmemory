@@ -11,7 +11,7 @@ import AVKit
 import Alamofire
 import CoreData
 
-class LocationList: UIViewController {
+class LocationList: CommonViewController {
     
     @IBOutlet weak var locationTblView: UITableView!
     @IBOutlet weak var lblNoData: UILabel!
@@ -22,9 +22,7 @@ class LocationList: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        print("------->FetchData() \(FetchData())")
-        
-        print("------->FirstUnSyncRow() \(FirstUnSyncRow())")
+        _appDelegator.uploadSingleVideo()
     }
     
     override func viewDidLoad() {
@@ -81,8 +79,15 @@ extension LocationList: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("---------------------------")
-        if let filevideoUrl = arrData[indexPath.row].videoUrl {
-            playerview = AVPlayer(url: filevideoUrl)
+        if let data = arrData[indexPath.row].video {
+            let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("yourvidename.mp4")
+
+            do {
+                try data.write(to: cacheURL, options: .atomicWrite)
+            } catch let err {
+                print("Failed with error:", err)
+            }
+            playerview = AVPlayer(url: cacheURL)
             playerviewcontroller.player = playerview
             self.present(playerviewcontroller, animated: true){
                 self.playerviewcontroller.player?.play()
@@ -92,87 +97,71 @@ extension LocationList: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension UIViewController {
-    func FetchData() -> [TravelMemory] {
-        
-        guard let travelData = CoreDataManager.sharedManager.fetchAllPersons() else { return [TravelMemory]() }
-        
-        return travelData
-    }
+extension AppDelegate {
     
-    func FirstUnSyncRow() -> (TravelMemory, Int) {
-        let travelData = FetchData()
-        
-        if travelData.count > 0 {
-            
-            let isSyncTrueArray = travelData.filter{ $0.isSync == false }
-            
-            return (isSyncTrueArray.count == 0 ? travelData.first! : isSyncTrueArray.first!, isSyncTrueArray.count)
-        }
-        return (TravelMemory(), 0)
-    }
-    
-    func uploadSingleVideo(FirstNonSyncRecord nonSyncRecord : (TravelMemory, Int)) -> Void {
-        
-        if nonSyncRecord.1 <= 0 {
-            return
-        }
-        
-        let nonSyncRecord = nonSyncRecord.0
-        
-        var FileName = "file_\(Date().timeIntervalSince1970).mp4"
-        let Originalurl = URL(string: "https://ar_game.project-demo.info/travel_memories/public/api/video")
-        let header : HTTPHeaders = ["Authorization": "Bearer 24|UXmFNdzQWIgP9yajVX7B8P7C8vrQRUBfqoMl7bpJ"]
-        let parameter : [String: Any] = ["name" : "\(FileName)", "lat" : "\(nonSyncRecord.latitude)", "long" : "\(nonSyncRecord.longitude)"]
-        AF.upload(multipartFormData: { (multipartFormData) in
-            for (key, value) in parameter{
-                multipartFormData.append(((value as Any) as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
-            }
-            let diceRoll = Int(arc4random_uniform(UInt32(100000)))
-            do {
-//                guard let URL = nonSyncRecord.videoUrl as? URL else { return  }
-                guard let videoData = nonSyncRecord.video else { return }//try Data(contentsOf: URL)
-                print("",videoData)
-                multipartFormData.append(videoData, withName: "file", fileName: "\(FileName)", mimeType: "mp4")
-            } catch {
-                debugPrint("Couldn't get Data from URL")
-            }
-        }, to: Originalurl!, method: .post, headers: header ).responseJSON(completionHandler: { (res) in
-            print("This is the result", res.result)
-            switch res.result {
-            case .failure(let err):
-                if let code = err.responseCode{
-                    print("unable to upload the image and create a post ",code)
-                    break
-                }
-            case .success(let sucess):
+    func uploadSingleVideo()  {
+            guard let userDeatil = LoginModel.getUserDetailFromUserDefault() else {return}
+            guard let fetchProduct = CoreDataManager.sharedManager.fetchAllPersons() else { return  }
+            for product in fetchProduct {
+                if !product.isSync {
+                    let FileName = "file_\(Date().timeIntervalSince1970).mp4"
+                    let Originalurl = URL(string: "https://ar_game.project-demo.info/travel_memories/public/api/video")
+                    let header : HTTPHeaders = ["Authorization": "Bearer \(userDeatil.data.token)"]
+                    let parameter : [String: Any] = ["name" : "\(FileName)", "lat" : "\(product.latitude)", "long" : "\(product.longitude)"]
+                    AF.upload(multipartFormData: { (multipartFormData) in
+                        for (key, value) in parameter{
+                            multipartFormData.append(((value as Any) as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
+                        }
+                        let diceRoll = Int(arc4random_uniform(UInt32(100000)))
+                        do {
+            //                guard let URL = nonSyncRecord.videoUrl as? URL else { return  }
+                            guard let videoData = product.video else { return }//try Data(contentsOf: URL)
+                            print("",videoData)
+                            multipartFormData.append(videoData, withName: "file", fileName: "\(FileName)", mimeType: "mp4")
+                        } catch {
+                            debugPrint("Couldn't get Data from URL")
+                        }
+                    }, to: Originalurl!, method: .post, headers: header ).responseJSON(completionHandler: { (res) in
+                        print("This is the result", res.result)
+                        switch res.result {
+                        case .failure(let err):
+                            if let code = err.responseCode{
+                                print("unable to upload the image and create a post ",code)
+                                break
+                            }
+                        case .success(let sucess):
 
-                let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-                
-                let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
-                fetchRequest.predicate = NSPredicate(format: "fileName = %@", nonSyncRecord.fileName!)
-                
-                do {
-                    let test = try manageContext!.fetch(fetchRequest)
-                    
-                    let objectUpdate = test[0] as! NSManagedObject
+                            let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+                            
+                            let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
+                            fetchRequest.predicate = NSPredicate(format: "fileName = %@", product.fileName!)
+                            
+                            do {
+                                let test = try manageContext!.fetch(fetchRequest)
+                                
+                                let objectUpdate = test[0] as! NSManagedObject
 
-                    objectUpdate.setValue(true , forKey: "isSync")
-                    
-                    do {
-                        try manageContext?.save()
-                    } catch  {
-                        print(error)
-                    }
-                    
-                } catch  {
-                    print(error)
+                                objectUpdate.setValue(true , forKey: "isSync")
+                                
+                                do {
+                                    try manageContext?.save()
+                                    
+                                    
+                                } catch  {
+                                    print(error)
+                                }
+                                
+                            } catch  {
+                                print(error)
+                            }
+                            if _userDefault.bool(forKey: userDefaultRemoveFromDevice) {
+                                CoreDataManager.sharedManager.deleteSingleData(fileName: product.fileName!)
+                            }
+                            print("--------VIDEO UPLOADED--------")
+                        }
+                    })
                 }
-                
-                print("--------VIDEO UPLOADED--------")
             }
-        })
-        
-    }
+        }
     
 }

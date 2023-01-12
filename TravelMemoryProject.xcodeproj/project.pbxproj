@@ -53,6 +53,7 @@
 		ECCA20132962B84100806646 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCA20122962B84100806646 /* UserLocation.swift */; };
 		ECD523D729486D6200A68E33 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6ED42B2943451300218E05 /* MapKit.framework */; };
 		ECDD3C68296FE03A00BD1765 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDD3C67296FE03A00BD1765 /* CoreDataManager.swift */; };
+		ECDD3C6A296FFBD400BD1765 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDD3C69296FFBD400BD1765 /* Reachability.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +130,7 @@
 		ECC499E02947884000683B46 /* locationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = locationCell.swift; sourceTree = "<group>"; };
 		ECCA20122962B84100806646 /* UserLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 		ECDD3C67296FE03A00BD1765 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		ECDD3C69296FFBD400BD1765 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +254,7 @@
 			children = (
 				EC4E07FC29669043008EF5C3 /* API */,
 				EC62B6E529645AD300498060 /* RawdataConverter.swift */,
+				ECDD3C69296FFBD400BD1765 /* Reachability.swift */,
 				EC62B6E929645B4100498060 /* Constant.swift */,
 				EC62B6E729645B1D00498060 /* Enums.swift */,
 				ECDD3C67296FE03A00BD1765 /* CoreDataManager.swift */,
@@ -541,6 +544,7 @@
 				EC5BBD742941A39600153D60 /* SceneDelegate.swift in Sources */,
 				EC5BBD9A2941A3F600153D60 /* WidgetExtension.intentdefinition in Sources */,
 				EC9B6002296D41BB001DE44A /* Extension.swift in Sources */,
+				ECDD3C6A296FFBD400BD1765 /* Reachability.swift in Sources */,
 				EC5BBDAF2941B09C00153D60 /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
