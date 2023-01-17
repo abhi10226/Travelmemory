@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gez-eN-a5Y">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eDR-Ak-anc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -611,6 +611,9 @@
                                 <state key="normal" title="Forgot Password?">
                                     <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="0.50495661520000001" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnForGotPasswordTapped:" destination="oPA-g4-Zf7" eventType="touchUpInside" id="va3-OE-XMV"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rX5-vA-m0o"/>
@@ -800,22 +803,115 @@
             </objects>
             <point key="canvasLocation" x="3682.608695652174" y="75"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="NjM-I3-mdp">
+        <!--Forgot PasswordVC-->
+        <scene sceneID="tR5-Lv-h7z">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Gez-eN-a5Y" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mrm-WI-ljN">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
+                <viewController storyboardIdentifier="ForgotPasswordVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nMP-r1-Vbm" customClass="ForgotPasswordVC" customModule="TravelMemoryProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TOz-49-d2j">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qXn-jD-7yB">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jaN-Zj-nJm">
+                                        <rect key="frame" x="20" y="44" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="7zY-a4-HKS"/>
+                                            <constraint firstAttribute="height" constant="44" id="cq8-Ms-U3R"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="arrow.backward" catalog="system"/>
+                                        <connections>
+                                            <action selector="btnBackTapped:" destination="nMP-r1-Vbm" eventType="touchUpInside" id="flu-ie-PVa"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forgot Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Rv-Tx-VqL">
+                                        <rect key="frame" x="64" y="55.5" width="286" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="9Rv-Tx-VqL" firstAttribute="centerY" secondItem="jaN-Zj-nJm" secondAttribute="centerY" id="CWk-20-5ze"/>
+                                    <constraint firstItem="9Rv-Tx-VqL" firstAttribute="leading" secondItem="jaN-Zj-nJm" secondAttribute="trailing" id="T4i-66-Z99"/>
+                                    <constraint firstAttribute="bottom" secondItem="jaN-Zj-nJm" secondAttribute="bottom" id="Tdy-2Z-7DO"/>
+                                    <constraint firstItem="9Rv-Tx-VqL" firstAttribute="centerX" secondItem="qXn-jD-7yB" secondAttribute="centerX" id="pXx-Ri-Bdl"/>
+                                    <constraint firstItem="jaN-Zj-nJm" firstAttribute="leading" secondItem="qXn-jD-7yB" secondAttribute="leading" constant="20" id="uyu-JZ-Dph"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="rsg-FG-EJC">
+                                <rect key="frame" x="20" y="128" width="374" height="45"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l0I-Wn-Gxq" customClass="HoshiTextField" customModule="TextFieldEffects">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="uRL-xj-2kK"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderInactiveColor">
+                                                <color key="value" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="0.52079492689999995" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderActiveColor">
+                                                <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                                <color key="value" systemColor="systemGrayColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="placeholderFontScale">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NsE-Kl-r8e" customClass="APRoundedButton" customModule="TravelMemoryProject" customModuleProvider="target">
+                                <rect key="frame" x="20" y="203" width="374" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="0.50495661520000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="AN9-Ye-KfK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Forgot Password">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="fullRounded" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="btnForgotPassTapped:" destination="nMP-r1-Vbm" eventType="touchUpInside" id="8qx-rH-AWw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="I2a-R4-tT6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="I2a-R4-tT6" firstAttribute="trailing" secondItem="rsg-FG-EJC" secondAttribute="trailing" constant="20" id="2ev-im-raZ"/>
+                            <constraint firstItem="qXn-jD-7yB" firstAttribute="top" secondItem="TOz-49-d2j" secondAttribute="top" id="4NT-IA-XWO"/>
+                            <constraint firstItem="I2a-R4-tT6" firstAttribute="trailing" secondItem="NsE-Kl-r8e" secondAttribute="trailing" constant="20" id="APB-1L-X3F"/>
+                            <constraint firstItem="rsg-FG-EJC" firstAttribute="leading" secondItem="I2a-R4-tT6" secondAttribute="leading" constant="20" id="HFk-Kh-dtw"/>
+                            <constraint firstItem="NsE-Kl-r8e" firstAttribute="top" secondItem="rsg-FG-EJC" secondAttribute="bottom" constant="30" id="HSU-5E-WQK"/>
+                            <constraint firstItem="rsg-FG-EJC" firstAttribute="top" secondItem="qXn-jD-7yB" secondAttribute="bottom" constant="40" id="ViI-Dj-Pjz"/>
+                            <constraint firstItem="jaN-Zj-nJm" firstAttribute="top" secondItem="I2a-R4-tT6" secondAttribute="top" id="YIH-op-UhD"/>
+                            <constraint firstItem="NsE-Kl-r8e" firstAttribute="leading" secondItem="I2a-R4-tT6" secondAttribute="leading" constant="20" id="neh-25-ATt"/>
+                            <constraint firstItem="qXn-jD-7yB" firstAttribute="leading" secondItem="I2a-R4-tT6" secondAttribute="leading" id="prm-td-iAI"/>
+                            <constraint firstItem="qXn-jD-7yB" firstAttribute="trailing" secondItem="I2a-R4-tT6" secondAttribute="trailing" id="uOf-Tl-PhF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="3kL-YU-dHE"/>
                     <connections>
-                        <segue destination="dFc-6B-eAa" kind="relationship" relationship="rootViewController" id="zBb-kj-dua"/>
+                        <outlet property="txtEmail" destination="l0I-Wn-Gxq" id="ybg-1R-cc2"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8c8-8o-0lR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HGh-rC-m83" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8386.9565217391319" y="66.964285714285708"/>
+            <point key="canvasLocation" x="8118.8405797101459" y="75"/>
         </scene>
     </scenes>
     <designables>
@@ -834,6 +930,9 @@
         <designable name="Ka7-IO-abS">
             <size key="intrinsicContentSize" width="82.5" height="23"/>
         </designable>
+        <designable name="NsE-Kl-r8e">
+            <size key="intrinsicContentSize" width="159" height="36"/>
+        </designable>
         <designable name="PZV-DI-Gqd">
             <size key="intrinsicContentSize" width="82.5" height="23"/>
         </designable>
@@ -847,6 +946,9 @@
             <size key="intrinsicContentSize" width="85" height="36"/>
         </designable>
         <designable name="Zhj-Sy-DeS">
+            <size key="intrinsicContentSize" width="118.5" height="23"/>
+        </designable>
+        <designable name="l0I-Wn-Gxq">
             <size key="intrinsicContentSize" width="118.5" height="23"/>
         </designable>
     </designables>

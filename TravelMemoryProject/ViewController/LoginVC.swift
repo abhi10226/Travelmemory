@@ -13,6 +13,7 @@ class loginVC: CommonViewController {
     
     @IBOutlet weak var txtEmail: HoshiTextField!
     @IBOutlet weak var txtPassword: HoshiTextField!
+    var completionHandler: ((Bool) -> ())?
     var isFromWidget:Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +21,14 @@ class loginVC: CommonViewController {
             VideoService.instance.launchVideoRecorder(in: self, completion: nil)
         }
     }
-    
+    func handler(handler: @escaping ((Bool) -> ())){
+        completionHandler = handler
+    }
     func naviToViewController() {
         DispatchQueue.main.async {
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as! ViewController
-            self.navigationController?.pushViewController(vc, animated: false)
+            self.navigationController?.popViewController(animated: true)
         }
-        
+       
     }
     
 }
@@ -45,26 +47,33 @@ extension loginVC {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
         navigationController?.pushViewController(vc, animated: true)
     }
+    @IBAction func btnForGotPasswordTapped(_ sender: UIButton) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPasswordVC") as! ForgotPasswordVC
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 //MARK: APi Calling
 extension loginVC {
     
     func callLoginApi() {
-        
+        showCentralSpinner()
         var params: [String:Any] = [:]
         params["email"] = txtEmail.text
         params["password"] = txtPassword.text
         CatFactApi().LogIn(parameters: params) { result in
             switch result {
             case .success(let value):
+                self.hideCentralSpinner()
                 Toast(text: "Login Successfully").show()
                 value.setUserDetailToUserDefault()
                 print(LoginModel.getUserDetailFromUserDefault())
                 print("WITH RETURN TYPE \(value)")
+                self.completionHandler?(true)
                 self.naviToViewController()
             case .failure(let error):
                 print("-------\(error.localizedDescription)")
+                self.hideCentralSpinner()
                 switch error {
                 case .internalError:
                     Toast(text: "Something went wrong.").show()

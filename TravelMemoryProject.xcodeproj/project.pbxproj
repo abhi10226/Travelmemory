@@ -43,6 +43,9 @@
 		EC62B6EA29645B4100498060 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62B6E929645B4100498060 /* Constant.swift */; };
 		EC62B6EC29645D0600498060 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62B6EB29645D0600498060 /* LoginVC.swift */; };
 		EC62B6EE29645DCE00498060 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62B6ED29645DCE00498060 /* RegisterVC.swift */; };
+		EC6AAA4F297698EC000191D1 /* CustomHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6AAA4D297698EC000191D1 /* CustomHud.swift */; };
+		EC6AAA50297698EC000191D1 /* CustomHud.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC6AAA4E297698EC000191D1 /* CustomHud.xib */; };
+		EC6AAA522976BB3B000191D1 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6AAA512976BB3B000191D1 /* ForgotPasswordVC.swift */; };
 		EC6ED42C2943451300218E05 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6ED42B2943451300218E05 /* MapKit.framework */; };
 		EC9B5FFD296D2CB2001DE44A /* SystemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9B5FFC296D2CB2001DE44A /* SystemVC.swift */; };
 		EC9B6000296D3488001DE44A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = EC9B5FFF296D3488001DE44A /* Alamofire */; };
@@ -122,6 +125,9 @@
 		EC62B6E929645B4100498060 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		EC62B6EB29645D0600498060 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		EC62B6ED29645DCE00498060 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
+		EC6AAA4D297698EC000191D1 /* CustomHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHud.swift; sourceTree = "<group>"; };
+		EC6AAA4E297698EC000191D1 /* CustomHud.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomHud.xib; sourceTree = "<group>"; };
+		EC6AAA512976BB3B000191D1 /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		EC6ED42B2943451300218E05 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EC9B5FFC296D2CB2001DE44A /* SystemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemVC.swift; sourceTree = "<group>"; };
 		EC9B6001296D41BB001DE44A /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -281,9 +287,19 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		EC6AAA4C297698EC000191D1 /* CustomHud */ = {
+			isa = PBXGroup;
+			children = (
+				EC6AAA4D297698EC000191D1 /* CustomHud.swift */,
+				EC6AAA4E297698EC000191D1 /* CustomHud.xib */,
+			);
+			path = CustomHud;
+			sourceTree = "<group>";
+		};
 		ECCA20082962B63100806646 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				EC6AAA4C297698EC000191D1 /* CustomHud */,
 				ECCA20092962B63E00806646 /* Cell */,
 			);
 			path = XIB;
@@ -315,6 +331,7 @@
 				EC62B6ED29645DCE00498060 /* RegisterVC.swift */,
 				EC9B5FFC296D2CB2001DE44A /* SystemVC.swift */,
 				EC2296DD296D931200360F14 /* GuestVC.swift */,
+				EC6AAA512976BB3B000191D1 /* ForgotPasswordVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -414,6 +431,7 @@
 			files = (
 				EC5BBD812941A39700153D60 /* LaunchScreen.storyboard in Resources */,
 				EC5BBD7E2941A39700153D60 /* Assets.xcassets in Resources */,
+				EC6AAA50297698EC000191D1 /* CustomHud.xib in Resources */,
 				ECAF4B632949A53F004169E7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,11 +538,13 @@
 				EC5BBDA62941AFFC00153D60 /* VideoService.swift in Sources */,
 				EC4E080029669058008EF5C3 /* Models.swift in Sources */,
 				EC62B6E829645B1E00498060 /* Enums.swift in Sources */,
+				EC6AAA522976BB3B000191D1 /* ForgotPasswordVC.swift in Sources */,
 				EC62B6E129644D1A00498060 /* UIFontExtension.swift in Sources */,
 				EC4E080129669058008EF5C3 /* CatFactApi.swift in Sources */,
 				EC4E080229669058008EF5C3 /* CatFactProvider.swift in Sources */,
 				EC62B6E029644D1A00498060 /* UIColorExtension.swift in Sources */,
 				EC62B6EE29645DCE00498060 /* RegisterVC.swift in Sources */,
+				EC6AAA4F297698EC000191D1 /* CustomHud.swift in Sources */,
 				ECDD3C68296FE03A00BD1765 /* CoreDataManager.swift in Sources */,
 				ECC499E12947884000683B46 /* locationCell.swift in Sources */,
 				EC5BBD7C2941A39600153D60 /* TravelMemoryProject.xcdatamodeld in Sources */,

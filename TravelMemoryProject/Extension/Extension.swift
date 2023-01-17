@@ -70,14 +70,44 @@ extension UIViewController {
 }
 
 class CommonViewController : UIViewController {
-       override func viewDidLoad() {
-           super.viewDidLoad()
-           /*NotificationCenter.default
-               .addObserver(self,
-                            selector: #selector(statusManager),
-                            name: .flagsChanged,
-                            object: nil)*/
-
-           // do your common works for all sub-classes
-       }
+    var customHud : CustomHud?
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        /*NotificationCenter.default
+         .addObserver(self,
+         selector: #selector(statusManager),
+         name: .flagsChanged,
+         object: nil)*/
+        
+        // do your common works for all sub-classes
+    }
+}
+extension CommonViewController {
+    
+    func showCentralSpinner(_ userEnabled: Bool = false,_ tabBarUserEnabled: Bool = true, name: String = "") {
+        if let _ = customHud{
+            customHud?.hide()
+        }
+        self.view.isUserInteractionEnabled = userEnabled
+        self.tabBarController?.tabBar.isUserInteractionEnabled = tabBarUserEnabled
+        customHud = CustomHud.intance()
+        if let customHud = customHud{
+            self.view?.addSubview(customHud)
+            
+            let top = NSLayoutConstraint(item: customHud, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: 0)
+            let buttom = NSLayoutConstraint(item: customHud, attribute: NSLayoutConstraint.Attribute.bottom, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1, constant: 0)
+            let trail = NSLayoutConstraint(item:customHud, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: 0)
+            let lead = NSLayoutConstraint(item: customHud, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: 0)
+            
+            customHud.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([top,buttom,trail,lead])
+        }
+        customHud?.show(name)
+    }
+    
+    func hideCentralSpinner() {
+        customHud?.hide()
+        self.view.isUserInteractionEnabled = true
+    }
+    
 }

@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if maybeOpenedFromWidget(urlContexts: connectionOptions.urlContexts) {
             self.window = UIWindow(windowScene: windowScene)
             //self.window =  UIWindow(frame: UIScreen.main.bounds)
-            if let _ = LoginModel.getUserDetailFromUserDefault() {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 guard let rootVC = storyboard.instantiateViewController(identifier: "ViewController") as? ViewController else {
                     print("ViewController not found")
@@ -30,21 +29,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let rootNC = UINavigationController(rootViewController: rootVC)
                 self.window?.rootViewController = rootNC
                 self.window?.makeKeyAndVisible()
-            }else {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let rootVC = storyboard.instantiateViewController(identifier: "loginVC") as? loginVC else {
-                    print("ViewController not found")
-                    return
-                }
-                rootVC.isFromWidget = true
-                let rootNC = UINavigationController(rootViewController: rootVC)
-                self.window?.rootViewController = rootNC
-                self.window?.makeKeyAndVisible()
-            }
+           
             return
         }
-        _appDelegator.window = self.window
-        _appDelegator.prepareForDirectLogin()
+//        _appDelegator.window = self.window
+//        _appDelegator.prepareForDirectLogin()
         if _userDefault.bool(forKey: userDefaultIsUploadedToCloud) {
             _appDelegator.uploadSingleVideo()
         }

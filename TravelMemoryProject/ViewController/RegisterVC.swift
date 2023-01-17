@@ -40,14 +40,20 @@ extension RegisterVC {
 //MARK: - Api Calling
 extension RegisterVC {
     func signUpApi() {
+        showCentralSpinner()
         var params:[String:Any] = [:]
-        params[""] = txtName.text
+        params["name"] = txtName.text
+        params["email"] = txtEmail.text
+        params["password"] = txtPassword.text
+        params["password_confirmation"] = txtConfirmPassword.text
         CatFactApi().SignUp(parameters: params) { result in
             switch result {
             case .success(let value):
+                self.hideCentralSpinner()
                 Toast(text: "SuccessFully register").show()
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
+                self.hideCentralSpinner()
                 switch error{
                 case .internalError:
                     Toast(text: "Something went wrong.").show()

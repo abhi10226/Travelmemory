@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //NFX.sharedInstance().start()
         if #available(iOS 13, *) {
         }else{
-            prepareForDirectLogin()
+         //   prepareForDirectLogin()
         }
         return true
     }

@@ -49,11 +49,12 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         arrData = []
+        arrVideoDetail = []
         googleMapView.clear()
         fetchCoreData()
         createDirectoryPath()
 
-        if NewReachability().isConnectedToNetwork() {
+        if NewReachability().isConnectedToNetwork(), let _ = LoginModel.getUserDetailFromUserDefault() {
             self.getAllVideoFromServer()
         }else{
             self.showAlert(alertText: "Internet issue", alertMessage: "You have lost you internet Connection.")
@@ -141,21 +142,25 @@ extension ViewController {
     func fetchCoreData() {
         if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
             for data in arrdata {
-                if !data.isSync {
-                    var param : [String:Any] = [:]
-                    param["Id"] = "ComingFromLocalDatabase"
-                    if let name = data.fileName {
-                        param["name"] = name
-                    }
-                    if let data = data.videoUrl {
-                        param["video"] = "\(data)"
-                    }
-                    param["lat"] = data.latitude
-                    param["long"] = data.longitude
-                    param["videoData"] = data.video
-                    print(param)
+                var param : [String:Any] = [:]
+                param["Id"] = "ComingFromLocalDatabase"
+                if let name = data.fileName {
+                    param["name"] = name
+                }
+                if let data = data.videoUrl {
+                    param["video"] = "\(data)"
+                }
+                param["lat"] = data.latitude
+                param["long"] = data.longitude
+                param["videoData"] = data.video
+                if !data.isSync,let _ = LoginModel.getUserDetailFromUserDefault() {
                     self.arrVideoDetail.append(VideoDetail(param))
-                    print(arrVideoDetail[0].video)
+                } else {
+                    if let _ = LoginModel.getUserDetailFromUserDefault() {
+                        
+                    }else {
+                        self.arrVideoDetail.append(VideoDetail(param))
+                    }
                 }
             }
             if let userDetail = LoginModel.getUserDetailFromUserDefault() {
@@ -164,7 +169,9 @@ extension ViewController {
                 self.fetchStadiumsOnMap(self.arrVideoDetail)
             }
         }
+        
     }
+    
     
     func createDirectoryPath() {
         let DocumentDirectory = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])

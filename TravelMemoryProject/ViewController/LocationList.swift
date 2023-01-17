@@ -21,40 +21,46 @@ class LocationList: CommonViewController {
     var arrVideoDetail: [VideoDetail] = []
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        _appDelegator.uploadSingleVideo()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
         self.locationTblView.delegate = self
         self.locationTblView.dataSource = self
+        arrVideoDetail = []
         fetchCoreData()
-        if NewReachability().isConnectedToNetwork() {
+        if NewReachability().isConnectedToNetwork() , let _ = LoginModel.getUserDetailFromUserDefault() {
             self.getAllVideoFromServer()
         }else{
             self.showAlert(alertText: "Internet issue", alertMessage: "You have lost you internet Connection.")
         }
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+       
+    }
+    
     func fetchCoreData() {
         if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
             for data in arrdata {
+                var param : [String:Any] = [:]
+                param["Id"] = "ComingFromLocalDatabase"
+                if let fileName = data.fileName {
+                    param["name"] = fileName
+                }
+                if let videoUrl = data.videoUrl {
+                    param["video"] = "\(videoUrl)"
+                }
+                param["lat"] = data.latitude
+                param["long"] = data.longitude
+                if let videoData = data.video {
+                    param["videoData"] = videoData
+                }
                 if !data.isSync {
-                    var param : [String:Any] = [:]
-                    param["Id"] = "ComingFromLocalDatabase"
-                    if let fileName = data.fileName {
-                        param["name"] = fileName
-                    }
-                    if let videoUrl = data.videoUrl {
-                        param["video"] = "\(videoUrl)"
-                    }
-                    param["lat"] = data.latitude
-                    param["long"] = data.longitude
-                    if let videoData = data.video {
-                        param["videoData"] = videoData
-                    }
                     self.arrVideoDetail.append(VideoDetail(param))
+                }else {
+                    if let _ = LoginModel.getUserDetailFromUserDefault() {
+                        
+                    }else {
+                        self.arrVideoDetail.append(VideoDetail(param))
+                    }
                 }
             }
             if let userDetail = LoginModel.getUserDetailFromUserDefault() {
@@ -64,6 +70,7 @@ class LocationList: CommonViewController {
             }
         }
     }
+    
     func generateThumbnail(path: URL) -> UIImage? {
         do {
             let asset = AVURLAsset(url: path, options: nil)
@@ -79,6 +86,7 @@ class LocationList: CommonViewController {
     }
     
 }
+//MARK: - Action Method
 extension LocationList {
     @IBAction func btnBackTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
