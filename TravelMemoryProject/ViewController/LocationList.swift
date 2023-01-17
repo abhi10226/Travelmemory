@@ -18,7 +18,7 @@ class LocationList: CommonViewController {
     var arrData: [TravelMemory] = []
     var playerviewcontroller = AVPlayerViewController()
     var playerview = AVPlayer ()
-    
+    var arrVideoDetail: [VideoDetail] = []
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -31,12 +31,36 @@ class LocationList: CommonViewController {
         self.locationTblView.delegate = self
         self.locationTblView.dataSource = self
         fetchCoreData()
+        if NewReachability().isConnectedToNetwork() {
+            self.getAllVideoFromServer()
+        }else{
+            self.showAlert(alertText: "Internet issue", alertMessage: "You have lost you internet Connection.")
+        }
     }
     func fetchCoreData() {
-        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext{
-            if let Coredata = try? context.fetch(TravelMemory.fetchRequest()) as! [TravelMemory]{
-                arrData = Coredata
-                print(arrData.count)
+        if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
+            for data in arrdata {
+                if !data.isSync {
+                    var param : [String:Any] = [:]
+                    param["Id"] = "ComingFromLocalDatabase"
+                    if let fileName = data.fileName {
+                        param["name"] = fileName
+                    }
+                    if let videoUrl = data.videoUrl {
+                        param["video"] = videoUrl
+                    }
+                    param["lat"] = data.latitude
+                    param["long"] = data.longitude
+                    if let videoData = data.video {
+                        param["videoData"] = videoData
+                    }
+                    self.arrVideoDetail.append(VideoDetail(param))
+                }
+            }
+            if let userDetail = LoginModel.getUserDetailFromUserDefault() {
+                print("\(userDetail.data.name)")
+            }else{
+                self.locationTblView.reloadData()
             }
         }
     }
@@ -63,13 +87,13 @@ extension LocationList {
 extension LocationList: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
-        lblNoData.text = arrData.count == 0 ? "No Avaliable Data" : ""
-        return arrData.count
+        lblNoData.text = arrVideoDetail.count == 0 ? "No Avaliable Data" : ""
+        return arrVideoDetail.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! locationCell
-        let fileName = URL(fileURLWithPath: "\(arrData[indexPath.row].videoUrl)").deletingPathExtension().lastPathComponent
+        let fileName = URL(fileURLWithPath: "\(arrVideoDetail[indexPath.row].video)").deletingPathExtension().lastPathComponent
 
         Swift.print(fileName)
         cell.lblVideoURL.text = fileName
@@ -79,20 +103,23 @@ extension LocationList: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("---------------------------")
-        if let data = arrData[indexPath.row].video {
-            let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("yourvidename.mp4")
+        let data = arrVideoDetail[indexPath.row].video
+           /* let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("yourvidename.mp4")
 
             do {
                 try data.write(to: cacheURL, options: .atomicWrite)
             } catch let err {
                 print("Failed with error:", err)
-            }
-            playerview = AVPlayer(url: cacheURL)
+            }*/
+        if let url = URL(string: data) {
+            playerview = AVPlayer(url: url)
             playerviewcontroller.player = playerview
             self.present(playerviewcontroller, animated: true){
                 self.playerviewcontroller.player?.play()
             }
         }
+           
+        
     }
     
 }
@@ -164,4 +191,34 @@ extension AppDelegate {
             }
         }
     
+}
+extension LocationList {
+    func getAllVideoFromServer() {
+        guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
+        
+        let header : HTTPHeaders = ["Authorization": "Bearer \(userDetail.data.token)"]
+        let urlString = "https://ar_game.project-demo.info/travel_memories/public/api/video"
+        print(userDetail.data.token)
+        AF.request(urlString,method: .get, headers: header)
+            .responseJSON { response in
+                switch response.result {
+                case .success( let value):
+                    if let videodata = value as? [String : Any] {
+                        if let videoDetailData = videodata["data"] as? [String:Any] {
+                            if let videoDetailArr = RawdataConverter.array(videoDetailData["videos"]) as? [[String:Any]] {
+                                for videoDetail in videoDetailArr {
+                                    self.arrVideoDetail.append(VideoDetail(videoDetail))
+                                }
+                                print(self.arrVideoDetail[0].videoData)
+                                self.locationTblView.reloadData()
+                            }
+                        }
+                    }
+                    
+                case .failure( let value):
+                    print(value)
+                }
+                
+            }
+    }
 }

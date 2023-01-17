@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyDhLgfTwASyc_Vs8UN3XuylZK0UO2PN5K8")
         IQKeyboardManager.shared.enable = true
-        NFX.sharedInstance().start()
+        //NFX.sharedInstance().start()
         if #available(iOS 13, *) {
         }else{
             prepareForDirectLogin()

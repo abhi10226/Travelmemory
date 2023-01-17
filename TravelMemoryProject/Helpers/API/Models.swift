@@ -95,3 +95,36 @@ class JSONNull: Codable, Hashable {
         try container.encodeNil()
     }
 }
+class VideoDetail: NSObject {
+    
+    var name: String
+    var Id: String
+    var video: String
+    var long: Double
+    var lat: Double
+    var videoData: Data
+   /* var videoData: NSData {
+        let url = URL(string: video)
+        var data: NSData
+        do {
+            data = try NSData(contentsOf: url!)
+            return data
+        }catch {
+            print(error)
+        }
+        return NSData()
+    }*/
+    init(_ dict: [String: Any]) {
+        Id = RawdataConverter.string(dict["Id"])
+        name = RawdataConverter.string(dict["name"])
+        video = RawdataConverter.string(dict["video"])
+        long = RawdataConverter.double(dict["long"])
+        lat = RawdataConverter.double(dict["lat"])
+        if let videoData = dict["videoData"] as? Data {
+            self.videoData = videoData
+        }else {
+            self.videoData = Data()
+        }
+    }
+    
+}

@@ -10,6 +10,7 @@ import MapKit
 import AVKit
 import AVFoundation
 import GoogleMaps
+import Alamofire
 class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapViewDelegate {
     //MARK: - IBOutlet
     @IBOutlet weak var googleMapView: GMSMapView!
@@ -19,6 +20,7 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
     //MARK: - Instance Method
     var isFromWidget: Bool = false
     var arrData: [TravelMemory] = []
+    var arrVideoDetail: [VideoDetail] = []
     var playerviewcontroller = AVPlayerViewController()
     var playerview = AVPlayer ()
     var latitude:CLLocationDegrees?
@@ -50,6 +52,14 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         googleMapView.clear()
         fetchCoreData()
         createDirectoryPath()
+
+        if NewReachability().isConnectedToNetwork() {
+            self.getAllVideoFromServer()
+        }else{
+            self.showAlert(alertText: "Internet issue", alertMessage: "You have lost you internet Connection.")
+            fetchStadiumsOnMap(arrVideoDetail)
+        }
+        
     }
     
     //MARK: GOOGLEMAP METHOD
@@ -74,11 +84,11 @@ extension ViewController {
     func setRegionWhenLatLongGet() {
         if CLLocationManager.locationServicesEnabled() {
             mapKitView.showsUserLocation = true
-            mapKitView.delegate = self
+           // mapKitView.delegate = self
             if let latitude = latitude, let longitude = longitude {
                 mapKitView.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), latitudinalMeters: 10, longitudinalMeters: 10), animated: true)
             }
-            fetchStadiumsOnMap(arrData)
+//            fetchStadiumsOnMap(arrData)
             locationManager.stopUpdatingLocation()
         } else {
             // Do something to let users know why they need to turn it on.
@@ -86,45 +96,39 @@ extension ViewController {
         }
     }
     
-    func fetchStadiumsOnMap(_ stadiums: [TravelMemory]) {
+    func fetchStadiumsOnMap(_ stadiums: [VideoDetail]) {
         for stadium in stadiums {
             let marker = MyGMSMarker()
             marker.position = CLLocationCoordinate2D(latitude:
-                                                        stadium.latitude as! CLLocationDegrees, longitude: stadium.longitude as! CLLocationDegrees)
+                                                        stadium.lat as! CLLocationDegrees, longitude: stadium.long as! CLLocationDegrees)
             marker.title = "I added this with a long tap"
             marker.snippet = ""
-            marker.identifier = stadium.videoUrl
-            marker.VideoNSData = stadium.video
+            if let url = URL(string: stadium.video) {
+                marker.identifier = url
+            }
+           
+         //   marker.VideoNSData = stadium.videoData as Data
             marker.map = googleMapView
-            //Add NSDAta
-            
-            /*let annotations = MyPointAnnotation()
-            annotations.identifier = stadium.videoUrl
-            print(latitude)
-            print(longitude)
-            annotations.coordinate = CLLocationCoordinate2D(latitude:
-                                                                stadium.latitude as! CLLocationDegrees, longitude: stadium.longitude as! CLLocationDegrees)
-            mapKitView.addAnnotation(annotations)*/
         }
     }
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let marker = marker as? MyGMSMarker {
             if let string = marker.identifier {
                 
-                let data = marker.VideoNSData
+               /* let data = marker.VideoNSData
                 let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("yourvidename.mp4")
 
                 do {
                     try data?.write(to: cacheURL, options: .atomicWrite)
                 } catch let err {
                     print("Failed with error:", err)
-                }
+                }*/
 
                 
                 print(string)
                 let fileURL = NSURL(fileURLWithPath:"\(string)")
                 print(fileURL)
-                playerview = AVPlayer(url: cacheURL)
+                playerview = AVPlayer(url: string)
                 playerviewcontroller.player = playerview
                 self.present(playerviewcontroller, animated: true){
                     self.playerviewcontroller.player?.play()
@@ -135,11 +139,29 @@ extension ViewController {
     }
    
     func fetchCoreData() {
-        if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext{
-            if let Coredata = try? context.fetch(TravelMemory.fetchRequest()) as! [TravelMemory]{
-                arrData = Coredata
-                print(arrData.count)
-                fetchStadiumsOnMap(arrData)
+        if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
+            for data in arrdata {
+                if !data.isSync {
+                    var param : [String:Any] = [:]
+                    param["Id"] = "ComingFromLocalDatabase"
+                    if let name = data.fileName {
+                        param["name"] = name
+                    }
+                    if let data = data.videoUrl {
+                        param["video"] = "\(data)"
+                    }
+                    param["lat"] = data.latitude
+                    param["long"] = data.longitude
+                    param["videoData"] = data.video
+                    print(param)
+                    self.arrVideoDetail.append(VideoDetail(param))
+                    print(arrVideoDetail[0].video)
+                }
+            }
+            if let userDetail = LoginModel.getUserDetailFromUserDefault() {
+                print(userDetail.data.name)
+            }else {
+                self.fetchStadiumsOnMap(self.arrVideoDetail)
             }
         }
     }
@@ -167,28 +189,25 @@ extension ViewController {
     
 }
 
-//MARK: - MapView Extension
-extension ViewController : MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let a = view.annotation as? MyPointAnnotation {
-            if let string = a.identifier {
-                print(string)
-                let fileURL = NSURL(fileURLWithPath:"\(string)")
-                print(fileURL)
-                playerview = AVPlayer(url: fileURL as URL)
-                playerviewcontroller.player = playerview
-                self.present(playerviewcontroller, animated: true){
-                    self.playerviewcontroller.player?.play()
-                }
-            }
-        }
-    }
-}
+////MARK: - MapView Extension
+//extension ViewController : MKMapViewDelegate {
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        if let a = view.annotation as? MyPointAnnotation {
+//            if let string = a.identifier {
+//                print(string)
+//                let fileURL = NSURL(fileURLWithPath:"\(string)")
+//                print(fileURL)
+//                playerview = AVPlayer(url: fileURL as URL)
+//                playerviewcontroller.player = playerview
+//                self.present(playerviewcontroller, animated: true){
+//                    self.playerviewcontroller.player?.play()
+//                }
+//            }
+//        }
+//    }
+//}
 
-//MARK: - For adding extra Paremeter in MKPointAnnotation
-class MyPointAnnotation : MKPointAnnotation {
-    var identifier: String?
-}
+
 
 //MARK: - Video Service Protocol Delegate Method
 extension ViewController: VideoServiceDelegate {
@@ -246,4 +265,35 @@ class MyGMSMarker: GMSMarker {
     
     var identifier: URL?
     var VideoNSData: Data?
+}
+
+extension ViewController {
+    func getAllVideoFromServer() {
+        guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
+        
+        let header : HTTPHeaders = ["Authorization": "Bearer \(userDetail.data.token)"]
+        let urlString = "https://ar_game.project-demo.info/travel_memories/public/api/video"
+        print(userDetail.data.token)
+        AF.request(urlString,method: .get, headers: header)
+            .responseJSON { response in
+                switch response.result {
+                case .success( let value):
+                    if let videodata = value as? [String : Any] {
+                        if let videoDetailData = videodata["data"] as? [String:Any] {
+                            if let videoDetailArr = RawdataConverter.array(videoDetailData["videos"]) as? [[String:Any]] {
+                                for videoDetail in videoDetailArr {
+                                    self.arrVideoDetail.append(VideoDetail(videoDetail))
+                                }
+                                print(self.arrVideoDetail[0].videoData)
+                                self.fetchStadiumsOnMap(self.arrVideoDetail)
+                            }
+                        }
+                    }
+                    
+                case .failure( let value):
+                    print(value)
+                }
+                
+            }
+    }
 }
