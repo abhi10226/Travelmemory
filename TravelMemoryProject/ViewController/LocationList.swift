@@ -47,7 +47,7 @@ class LocationList: CommonViewController {
                         param["name"] = fileName
                     }
                     if let videoUrl = data.videoUrl {
-                        param["video"] = videoUrl
+                        param["video"] = "\(videoUrl)"
                     }
                     param["lat"] = data.latitude
                     param["long"] = data.longitude
@@ -96,8 +96,7 @@ extension LocationList: UITableViewDelegate, UITableViewDataSource {
         let fileName = URL(fileURLWithPath: "\(arrVideoDetail[indexPath.row].video)").deletingPathExtension().lastPathComponent
 
         Swift.print(fileName)
-        cell.lblVideoURL.text = fileName
-     
+        cell.lblVideoURL.text = arrVideoDetail[indexPath.row].name
         return cell
     }
     
