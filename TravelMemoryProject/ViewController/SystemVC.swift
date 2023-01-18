@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Toaster
 
 class SystemVC: CommonViewController {
 
@@ -39,6 +40,34 @@ extension SystemVC {
             self.btnLogout.isHidden = true
         }
     }
+    func naviToLoginVC() {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginVC") as! loginVC
+        vc.handler { [weak self] result in
+            guard let `self` = self else {return}
+            if result {
+                DispatchQueue.main.async {
+                    UserDefaults.standard.set(true, forKey: userDefaultIsUploadedToCloud)
+                    _appDelegator.uploadSingleVideo()
+                    self.updateUI()
+                }
+            }
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func naviToNeedToLoginPopupVC() {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NeedToLoginPopUpVC") as! NeedToLoginPopUpVC
+        vc.handler { [weak self] result in
+            guard let `self` = self else {return}
+            if result {
+                self.naviToLoginVC()
+            }else{
+                self.updateUI()
+            }
+        }
+        vc.modalPresentationStyle = .overFullScreen
+        navigationController?.present(vc, animated: true, completion: nil)
+    }
 }
 
 //MARK: - Button Action Method
@@ -54,41 +83,20 @@ extension SystemVC {
                 _appDelegator.uploadSingleVideo()
             }
         }else {
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginVC") as! loginVC
-            vc.handler { [weak self] result in
-                guard let `self` = self else {return}
-                if result {
-                    DispatchQueue.main.async {
-                        UserDefaults.standard.set(true, forKey: userDefaultIsUploadedToCloud)
-                        _appDelegator.uploadSingleVideo()
-                        self.updateUI()
-                    }
-                }
-            }
-            navigationController?.pushViewController(vc, animated: true)
+            naviToNeedToLoginPopupVC()
         }
         
     }
     
     @IBAction func removeFromDeviceTapped(_ sender: Any) {
-        if let userDetail = LoginModel.getUserDetailFromUserDefault() {
+        if _userDefault.bool(forKey: userDefaultIsUploadedToCloud) {
             UserDefaults.standard.set(removeFromDeviceSwitch.isOn, forKey: userDefaultRemoveFromDevice)
             if _userDefault.bool(forKey: userDefaultRemoveFromDevice) {
                 CoreDataManager.sharedManager.deleteAll()
             }
-        }else {
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginVC") as! loginVC
-            vc.handler { [weak self] result in
-                guard let `self` = self else {return}
-                if result {
-                    DispatchQueue.main.async {
-                        UserDefaults.standard.set(true, forKey: userDefaultRemoveFromDevice)
-                        CoreDataManager.sharedManager.deleteAll()
-                        self.updateUI()
-                    }
-                }
-            }
-            navigationController?.pushViewController(vc, animated: true)
+        }else{
+            updateUI()
+            Toast(text: "You need to switch on upload to Cloud for removing the video from your device ").show()
         }
     }
     

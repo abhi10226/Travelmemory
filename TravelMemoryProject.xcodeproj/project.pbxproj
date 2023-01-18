@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4F90736D8ECE525CAEEDBDA4 /* Pods_WidgetExtensionExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2B765957FC1513E39655CD /* Pods_WidgetExtensionExtension.framework */; };
 		871D45E5E56E4991465AE9E7 /* Pods_TravelMemoryProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA69C96E05E18A8AAAABFABA /* Pods_TravelMemoryProject.framework */; };
+		EC070A432977B61A00995186 /* NeedToLoginPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC070A422977B61A00995186 /* NeedToLoginPopUpVC.swift */; };
+		EC070A452977CA2F00995186 /* EnterNamePopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC070A442977CA2F00995186 /* EnterNamePopupVC.swift */; };
 		EC2296DE296D931200360F14 /* GuestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2296DD296D931200360F14 /* GuestVC.swift */; };
 		EC4E080029669058008EF5C3 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4E07FD29669058008EF5C3 /* Models.swift */; };
 		EC4E080129669058008EF5C3 /* CatFactApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4E07FE29669058008EF5C3 /* CatFactApi.swift */; };
@@ -90,6 +92,8 @@
 		4C2B765957FC1513E39655CD /* Pods_WidgetExtensionExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WidgetExtensionExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97D487456C8BE5D0BBE6925A /* Pods-TravelMemoryProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TravelMemoryProject.release.xcconfig"; path = "Target Support Files/Pods-TravelMemoryProject/Pods-TravelMemoryProject.release.xcconfig"; sourceTree = "<group>"; };
 		BA69C96E05E18A8AAAABFABA /* Pods_TravelMemoryProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TravelMemoryProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC070A422977B61A00995186 /* NeedToLoginPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedToLoginPopUpVC.swift; sourceTree = "<group>"; };
+		EC070A442977CA2F00995186 /* EnterNamePopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNamePopupVC.swift; sourceTree = "<group>"; };
 		EC2296DD296D931200360F14 /* GuestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestVC.swift; sourceTree = "<group>"; };
 		EC4E07FD29669058008EF5C3 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		EC4E07FE29669058008EF5C3 /* CatFactApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatFactApi.swift; sourceTree = "<group>"; };
@@ -332,6 +336,8 @@
 				EC9B5FFC296D2CB2001DE44A /* SystemVC.swift */,
 				EC2296DD296D931200360F14 /* GuestVC.swift */,
 				EC6AAA512976BB3B000191D1 /* ForgotPasswordVC.swift */,
+				EC070A422977B61A00995186 /* NeedToLoginPopUpVC.swift */,
+				EC070A442977CA2F00995186 /* EnterNamePopupVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -549,6 +555,7 @@
 				ECC499E12947884000683B46 /* locationCell.swift in Sources */,
 				EC5BBD7C2941A39600153D60 /* TravelMemoryProject.xcdatamodeld in Sources */,
 				EC5BBDAE2941B09C00153D60 /* UIAlertController_Extension.swift in Sources */,
+				EC070A452977CA2F00995186 /* EnterNamePopupVC.swift in Sources */,
 				EC62B6E629645AD300498060 /* RawdataConverter.swift in Sources */,
 				EC5BBD762941A39600153D60 /* ViewController.swift in Sources */,
 				EC62B6E229644D1A00498060 /* StringExtension.swift in Sources */,
@@ -562,6 +569,7 @@
 				EC62B6E329644D1A00498060 /* DateExtension.swift in Sources */,
 				EC5BBD722941A39600153D60 /* AppDelegate.swift in Sources */,
 				EC5BBD742941A39600153D60 /* SceneDelegate.swift in Sources */,
+				EC070A432977B61A00995186 /* NeedToLoginPopUpVC.swift in Sources */,
 				EC5BBD9A2941A3F600153D60 /* WidgetExtension.intentdefinition in Sources */,
 				EC9B6002296D41BB001DE44A /* Extension.swift in Sources */,
 				ECDD3C6A296FFBD400BD1765 /* Reachability.swift in Sources */,

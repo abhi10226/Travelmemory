@@ -28,7 +28,7 @@ class VideoService: NSObject {
     var longitude: CLLocationDegrees?
     var isReversebtnTapped: Bool = false
     static let instance = VideoService()
-    
+    var fileName: String = ""
     var URLArr = [URL]()
     var StopVideoBtnTap = false
     typealias CompletionHandler = (_ success : URL) -> Void

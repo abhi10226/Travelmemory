@@ -47,6 +47,9 @@ extension loginVC {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
         navigationController?.pushViewController(vc, animated: true)
     }
+    @IBAction func btnbackTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
     @IBAction func btnForGotPasswordTapped(_ sender: UIButton) {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ForgotPasswordVC") as! ForgotPasswordVC
         navigationController?.pushViewController(vc, animated: true)
