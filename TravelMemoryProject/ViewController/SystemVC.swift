@@ -33,10 +33,10 @@ extension SystemVC {
         autoUpload.isOn = _userDefault.bool(forKey: userDefaultIsUploadedToCloud) ? true : false
         removeFromDeviceSwitch.isOn = _userDefault.bool(forKey: userDefaultRemoveFromDevice) ? true : false
         if let userDetail = LoginModel.getUserDetailFromUserDefault() {
-            lblGuestMode.text = userDetail.data.name
+            lblGuestMode.text = "Welcome, \(userDetail.data.name)"
             self.btnLogout.isHidden = false
         }else {
-            lblGuestMode.text = "As a Guest"
+            lblGuestMode.text = "Welcome, Guest"
             self.btnLogout.isHidden = true
         }
     }

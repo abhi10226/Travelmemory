@@ -56,9 +56,6 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
 
         if NewReachability().isConnectedToNetwork(), let _ = LoginModel.getUserDetailFromUserDefault() {
             self.getAllVideoFromServer()
-        }else{
-            self.showAlert(alertText: "Internet issue", alertMessage: "You have lost you internet Connection.")
-            fetchStadiumsOnMap(arrVideoDetail)
         }
         
     }

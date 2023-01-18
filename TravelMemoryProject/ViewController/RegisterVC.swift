@@ -51,7 +51,9 @@ extension RegisterVC {
             case .success(let value):
                 self.hideCentralSpinner()
                 Toast(text: "SuccessFully register").show()
-                self.navigationController?.popViewController(animated: true)
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                }
             case .failure(let error):
                 self.hideCentralSpinner()
                 switch error{
@@ -60,7 +62,7 @@ extension RegisterVC {
                 case .serverError:
                     Toast(text: "Server issue.").show()
                 case .parsingError:
-                    Toast(text: "You have already signup with this email.").show()
+                    Toast(text: "Something went wrong.").show()
                 }
                 print("-------\(error.localizedDescription)")
             default:

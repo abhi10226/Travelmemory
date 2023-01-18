@@ -134,12 +134,55 @@ extension VideoService {
         picker.cameraDevice = picker.cameraDevice == .rear ? .front : .rear
         picker.startVideoCapture()
     }
+    
     @objc func stopButton() {
-        isReversebtnTapped = false
-        StopVideoBtnTap = true
-        picker.stopVideoCapture()
+        self.isReversebtnTapped = false
+        self.StopVideoBtnTap = true
+        self.picker.stopVideoCapture()
     }
     
+    func naviToEnterFileNamePopUp(arrUrl: [URL]) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EnterNamePopupVC") as! EnterNamePopupVC
+        vc.handler { [weak self] result in
+            guard let `self` = self else {return}
+            Toast(text: "Video Uploading").show()
+            AVMutableComposition().mergeVideo(arrUrl) { url, error in
+                self.saveVideo(at: url!) { success in
+                    print("Merged")
+                    self.StopVideoBtnTap = false
+                    self.URLArr.removeAll()
+                    if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+                        let newItem = TravelMemory(context:context)
+                        if let latitude = self.latitude,let longitude = self.longitude  {
+                            newItem.fileName = result
+                            newItem.videoUrl = success
+                            newItem.latitude = Double(latitude)
+                            newItem.longitude = Double(longitude)
+                            newItem.isSync = false
+                            newItem.createdAt = Date.currentDate()
+                            
+                            do {
+                                guard let URL = success as? URL else { return  }
+                                let videoData = try Data(contentsOf: URL)
+                                newItem.video = videoData
+                            } catch {
+                                debugPrint("Couldn't get Data from URL")
+                            }
+                            
+                            (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+                        }else {
+                            Toast(text: "Please allow location access to save your video").show()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                exit(-1)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        vc.modalPresentationStyle  = .overFullScreen
+        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+    }
     
     func launchVideoRecorder(in vc: UIViewController, completion: (() -> ())?) {
         guard isVideoRecordingAvailable() else {
@@ -172,7 +215,9 @@ extension VideoService {
     @objc func video(videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
         let videoURL = URL(fileURLWithPath: videoPath as String)
         if !isReversebtnTapped {
-            exit(-1)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                exit(-1)
+            }
         }
         
         //  self.delegate?.videoDidFinishSaving(error: error, url: videoURL)
@@ -199,39 +244,7 @@ extension VideoService: UIImagePickerControllerDelegate, UINavigationControllerD
         guard let mediaURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL else { return }
         URLArr.append(mediaURL)
         if self.StopVideoBtnTap {
-            AVMutableComposition().mergeVideo(URLArr) { url, error in
-                self.saveVideo(at: url!) { success in
-                    print("Merged")
-                    self.StopVideoBtnTap = false
-                    self.URLArr.removeAll()
-                    if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
-                        let newItem = TravelMemory(context:context)
-                        if let latitude = self.latitude,let longitude = self.longitude  {
-                            newItem.fileName = success.lastPathComponent
-                            newItem.videoUrl = success
-                            newItem.latitude = Double(latitude)
-                            newItem.longitude = Double(longitude)
-                            newItem.isSync = false
-                            newItem.createdAt = Date.currentDate()
-                            
-                            do {
-                                guard let URL = success as? URL else { return  }
-                                let videoData = try Data(contentsOf: URL)
-                                newItem.video = videoData
-                            } catch {
-                                debugPrint("Couldn't get Data from URL")
-                            }
-                            
-                            (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
-                        }else {
-                            Toast(text: "Please allow location access to save your video").show()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                exit(-1)
-                            }
-                        }
-                    }
-                }
-            }
+            naviToEnterFileNamePopUp(arrUrl: URLArr)
         }
         
     }
@@ -393,5 +406,21 @@ extension URL {
         }
         // Will only be called if document directory not found
         return nil
+    }
+}
+extension UIApplication {
+    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
     }
 }

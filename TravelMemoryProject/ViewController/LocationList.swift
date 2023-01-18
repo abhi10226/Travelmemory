@@ -27,8 +27,6 @@ class LocationList: CommonViewController {
         fetchCoreData()
         if NewReachability().isConnectedToNetwork() , let _ = LoginModel.getUserDetailFromUserDefault() {
             self.getAllVideoFromServer()
-        }else{
-            self.showAlert(alertText: "Internet issue", alertMessage: "You have lost you internet Connection.")
         }
     }
     
@@ -139,9 +137,13 @@ extension AppDelegate {
             for product in fetchProduct {
                 if !product.isSync {
                     let FileName = "file_\(Date().timeIntervalSince1970).mp4"
+                    var fileName: String = ""
+                    if let name = product.fileName {
+                        fileName = name
+                    }
                     let Originalurl = URL(string: "https://ar_game.project-demo.info/travel_memories/public/api/video")
                     let header : HTTPHeaders = ["Authorization": "Bearer \(userDeatil.data.token)"]
-                    let parameter : [String: Any] = ["name" : "\(FileName)", "lat" : "\(product.latitude)", "long" : "\(product.longitude)"]
+                    let parameter : [String: Any] = ["name" : "\(fileName)", "lat" : "\(product.latitude)", "long" : "\(product.longitude)"]
                     AF.upload(multipartFormData: { (multipartFormData) in
                         for (key, value) in parameter{
                             multipartFormData.append(((value as Any) as AnyObject).data(using: String.Encoding.utf8.rawValue)!, withName: key)
@@ -216,7 +218,7 @@ extension LocationList {
                                 for videoDetail in videoDetailArr {
                                     self.arrVideoDetail.append(VideoDetail(videoDetail))
                                 }
-                                print(self.arrVideoDetail[0].videoData)
+                                print(self.arrVideoDetail[0].video)
                                 self.locationTblView.reloadData()
                             }
                         }

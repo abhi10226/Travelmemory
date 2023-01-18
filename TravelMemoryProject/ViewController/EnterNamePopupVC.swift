@@ -7,6 +7,7 @@
 
 import UIKit
 import TextFieldEffects
+import Toaster
 
 class EnterNamePopupVC: UIViewController {
     @IBOutlet weak var txtEnterName: HoshiTextField!
@@ -38,10 +39,12 @@ extension EnterNamePopupVC {
         let result = isValid()
         if result.valid {
             if let text = txtEnterName.text {
-                navigationController?.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 completionHandler?(text)
             }
+            return
         }
+        Toast(text: result.error).show()
     }
     
 }
