@@ -95,6 +95,7 @@ extension ViewController {
     }
     
     func fetchStadiumsOnMap(_ stadiums: [VideoDetail]) {
+        var markers = [MyGMSMarker]()
         for stadium in stadiums {
             let marker = MyGMSMarker()
             marker.position = CLLocationCoordinate2D(latitude:
@@ -104,10 +105,15 @@ extension ViewController {
             if let url = URL(string: stadium.video) {
                 marker.identifier = url
             }
-           
+            markers.append(marker)
          //   marker.VideoNSData = stadium.videoData as Data
             marker.map = googleMapView
         }
+        var bounds = GMSCoordinateBounds()
+        for marker in markers {
+            bounds = bounds.includingCoordinate(marker.position)
+        }
+        googleMapView.animate(with: GMSCameraUpdate.fit(bounds, with: UIEdgeInsets(top: 50.0 , left: 50.0 ,bottom: 50.0 ,right: 50.0)))
     }
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let marker = marker as? MyGMSMarker {
