@@ -31,6 +31,15 @@ class VideoService: NSObject {
     var fileName: String = ""
     var URLArr = [URL]()
     var StopVideoBtnTap = false
+    var time:Int = 0
+    lazy var lblTimmer: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "00:00:00"
+        lbl.font = UIFont.systemFont(ofSize: 30)
+        lbl.textColor = UIColor.red
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
     typealias CompletionHandler = (_ success : URL) -> Void
     private override init() {
         super.init()
@@ -43,6 +52,7 @@ class VideoService: NSObject {
         isReversebtnTapped = false
         StopVideoBtnTap = true
         picker.stopVideoCapture()
+        lblTimmer.isHidden = true
     }
 }
 
@@ -79,12 +89,7 @@ extension VideoService {
             return btn
         }()
         
-        lazy var StopLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "Stop Recording"
-            lbl.textColor = UIColor.red
-            return lbl
-        }()
+       
         picker.delegate = self
         picker.sourceType = .camera
         picker.cameraDevice =  .rear
@@ -105,18 +110,18 @@ extension VideoService {
         
         picker.view.addSubview(overlayView)
         picker.view.addSubview(SaveButton)
-        picker.view.addSubview(StopLabel)
+        picker.view.addSubview(lblTimmer)
         picker.view.addSubview(reverceButton)
         
         
         
         SaveButton.centerXAnchor.constraint(equalTo: picker.view.centerXAnchor).isActive = true
-        StopLabel.centerXAnchor.constraint(equalTo: picker.view.centerXAnchor).isActive = true
+        lblTimmer.centerXAnchor.constraint(equalTo: picker.view.centerXAnchor).isActive = true
         
         
         //with this line you are telling the button to position itself vertically 100 from the bottom of the view. you can change the number to whatever suits your needs
         SaveButton.bottomAnchor.constraint(equalTo: picker.view.bottomAnchor, constant: -75).isActive = true
-        StopLabel.bottomAnchor.constraint(equalTo: picker.view.bottomAnchor, constant: -10).isActive = true
+        lblTimmer.topAnchor.constraint(equalTo: picker.view.topAnchor, constant: 50).isActive = true
         reverceButton.bottomAnchor.constraint(equalTo: picker.view.bottomAnchor, constant: -90).isActive = true
         reverceButton.leftAnchor.constraint(equalTo: SaveButton.rightAnchor, constant: 20).isActive = true
         reverceButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
@@ -139,6 +144,7 @@ extension VideoService {
         self.isReversebtnTapped = false
         self.StopVideoBtnTap = true
         self.picker.stopVideoCapture()
+        lblTimmer.isHidden = true
     }
     
     func naviToEnterFileNamePopUp(arrUrl: [URL]) {
@@ -195,11 +201,21 @@ extension VideoService {
                 picker.startVideoCapture()
                 Toast(text: "Recording Started").show()
                 Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.stopVideoRecording), userInfo: nil, repeats: false)
+                Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timmer), userInfo: nil, repeats: true)
                 completion?()
             }
         }
     }
     
+    @objc func timmer() {
+        time += 1
+        if (time / 10) > 0 {
+            lblTimmer.text = "00:00:\(time)"
+        }else{
+            lblTimmer.text = "00:00:0\(time)"
+        }
+        
+    }
     
     private func saveVideo(at mediaUrl: URL, completionHandler: CompletionHandler) {
         let compatible = UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(mediaUrl.path)
