@@ -49,7 +49,7 @@ extension ForgotPasswordVC {
                     if let videodata = value as? [String : Any] {
                         Toast(text: videodata["message"] as? String).show()
                     }
-                    
+                    self.navigationController?.popViewController(animated: false)
                 case .failure( let value):
                     print(value)
                 }
