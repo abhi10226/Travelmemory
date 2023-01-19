@@ -107,7 +107,9 @@ extension CommonViewController {
     
     func hideCentralSpinner() {
         customHud?.hide()
-        self.view.isUserInteractionEnabled = true
+        DispatchQueue.main.async {
+            self.view.isUserInteractionEnabled = true
+        }
     }
     
 }
