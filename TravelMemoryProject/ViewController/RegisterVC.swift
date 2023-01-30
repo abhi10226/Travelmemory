@@ -17,6 +17,10 @@ class RegisterVC : CommonViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    }
 }
 //MARK: - Action Method
 extension RegisterVC {

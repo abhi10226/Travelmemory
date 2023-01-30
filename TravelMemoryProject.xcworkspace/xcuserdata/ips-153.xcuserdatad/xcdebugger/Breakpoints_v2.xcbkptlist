@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "21857FBE-CF08-43D5-BFA1-CAA16B56C731"
-            shouldBeEnabled = "Yes"
+            uuid = "70B4B042-E2C1-45A6-8CD1-6300617E42B4"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TravelMemoryProject/ViewController/LocationList.swift"
+            filePath = "TravelMemoryProject/ViewController/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
-            landmarkName = "getAllVideoFromServer()"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "mapView(_:didChange:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

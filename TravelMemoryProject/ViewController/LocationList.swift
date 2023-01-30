@@ -15,19 +15,19 @@ class LocationList: CommonViewController {
     
     @IBOutlet weak var locationTblView: UITableView!
     @IBOutlet weak var lblNoData: UILabel!
-    var arrData: [TravelMemory] = []
     var playerviewcontroller = AVPlayerViewController()
     var playerview = AVPlayer ()
-    var arrVideoDetail: [VideoDetail] = []
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.locationTblView.delegate = self
         self.locationTblView.dataSource = self
-        arrVideoDetail = []
-        fetchCoreData()
-        if NewReachability().isConnectedToNetwork() , let _ = LoginModel.getUserDetailFromUserDefault() {
-            self.getAllVideoFromServer()
-        }
+//        arrVideoDetail = []
+//        fetchCoreData()
+//        if NewReachability().isConnectedToNetwork() , let _ = LoginModel.getUserDetailFromUserDefault() {
+//            self.getAllVideoFromServer()
+//        }
+        self.locationTblView.reloadData()
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLoad() {
@@ -35,39 +35,39 @@ class LocationList: CommonViewController {
        
     }
     
-    func fetchCoreData() {
-        if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
-            for data in arrdata {
-                var param : [String:Any] = [:]
-                param["Id"] = "ComingFromLocalDatabase"
-                if let fileName = data.fileName {
-                    param["name"] = fileName
-                }
-                if let videoUrl = data.videoUrl {
-                    param["video"] = "\(videoUrl)"
-                }
-                param["lat"] = data.latitude
-                param["long"] = data.longitude
-                if let videoData = data.video {
-                    param["videoData"] = videoData
-                }
-                if !data.isSync {
-                    self.arrVideoDetail.append(VideoDetail(param))
-                }else {
-                    if let _ = LoginModel.getUserDetailFromUserDefault() {
-                        
-                    }else {
-                        self.arrVideoDetail.append(VideoDetail(param))
-                    }
-                }
-            }
-            if let userDetail = LoginModel.getUserDetailFromUserDefault() {
-                print("\(userDetail.data.name)")
-            }else{
-                self.locationTblView.reloadData()
-            }
-        }
-    }
+//    func fetchCoreData() {
+//        if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
+//            for data in arrdata {
+//                var param : [String:Any] = [:]
+//                param["Id"] = "ComingFromLocalDatabase"
+//                if let fileName = data.fileName {
+//                    param["name"] = fileName
+//                }
+//                if let videoUrl = data.videoUrl {
+//                    param["video"] = "\(videoUrl)"
+//                }
+//                param["lat"] = data.latitude
+//                param["long"] = data.longitude
+//                if let videoData = data.video {
+//                    param["videoData"] = videoData
+//                }
+//                if !data.isSync {
+//                    self.arrVideoDetail.append(VideoDetail(param))
+//                }else {
+//                    if let _ = LoginModel.getUserDetailFromUserDefault() {
+//
+//                    }else {
+//                        self.arrVideoDetail.append(VideoDetail(param))
+//                    }
+//                }
+//            }
+//            if let userDetail = LoginModel.getUserDetailFromUserDefault() {
+//                print("\(userDetail.data.name)")
+//            }else{
+//                self.locationTblView.reloadData()
+//            }
+//        }
+//    }
     
     func generateThumbnail(path: URL) -> UIImage? {
         do {
@@ -93,22 +93,22 @@ extension LocationList {
 extension LocationList: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
-        lblNoData.text = arrVideoDetail.count == 0 ? "No Avaliable Data" : ""
-        return arrVideoDetail.count
+        lblNoData.text = arrayVideoDetail.count == 0 ? "No Avaliable Data" : ""
+        return arrayVideoDetail.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! locationCell
-        let fileName = URL(fileURLWithPath: "\(arrVideoDetail[indexPath.row].video)").deletingPathExtension().lastPathComponent
+        let fileName = URL(fileURLWithPath: "\(arrayVideoDetail[indexPath.row].video)").deletingPathExtension().lastPathComponent
 
         Swift.print(fileName)
-        cell.lblVideoURL.text = arrVideoDetail[indexPath.row].name
+        cell.lblVideoURL.text = arrayVideoDetail[indexPath.row].name
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("---------------------------")
-        let data = arrVideoDetail[indexPath.row].video
+        let data = arrayVideoDetail[indexPath.row].video
            /* let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("yourvidename.mp4")
 
             do {
@@ -200,34 +200,4 @@ extension AppDelegate {
             }
         }
     
-}
-extension LocationList {
-    func getAllVideoFromServer() {
-        guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
-        
-        let header : HTTPHeaders = ["Authorization": "Bearer \(userDetail.data.token)"]
-        let urlString = "https://ar_game.project-demo.info/travel_memories/public/api/video"
-        print(userDetail.data.token)
-        AF.request(urlString,method: .get, headers: header)
-            .responseJSON { response in
-                switch response.result {
-                case .success( let value):
-                    if let videodata = value as? [String : Any] {
-                        if let videoDetailData = videodata["data"] as? [String:Any] {
-                            if let videoDetailArr = RawdataConverter.array(videoDetailData["videos"]) as? [[String:Any]] {
-                                for videoDetail in videoDetailArr {
-                                    self.arrVideoDetail.append(VideoDetail(videoDetail))
-                                }
-                                print(self.arrVideoDetail[0].video)
-                                self.locationTblView.reloadData()
-                            }
-                        }
-                    }
-                    
-                case .failure( let value):
-                    print(value)
-                }
-                
-            }
-    }
 }

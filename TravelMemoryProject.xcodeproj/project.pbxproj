@@ -35,6 +35,8 @@
 		EC5BBDAF2941B09C00153D60 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5BBDAA2941B09C00153D60 /* Device.swift */; };
 		EC5BBDB02941B09C00153D60 /* UISlider_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5BBDAB2941B09C00153D60 /* UISlider_Extension.swift */; };
 		EC5BBDB12941B09C00153D60 /* AVPlayer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5BBDAC2941B09C00153D60 /* AVPlayer_Extension.swift */; };
+		EC5FD1CE2987A7B700645CAF /* MainTabbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC5FD1CC2987A7B700645CAF /* MainTabbarView.xib */; };
+		EC5FD1CF2987A7B700645CAF /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5FD1CD2987A7B700645CAF /* MainTabBarVC.swift */; };
 		EC62B6D929644B6F00498060 /* netfox in Frameworks */ = {isa = PBXBuildFile; productRef = EC62B6D829644B6F00498060 /* netfox */; };
 		EC62B6E029644D1A00498060 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62B6DB29644D1A00498060 /* UIColorExtension.swift */; };
 		EC62B6E129644D1A00498060 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC62B6DC29644D1A00498060 /* UIFontExtension.swift */; };
@@ -120,6 +122,8 @@
 		EC5BBDAA2941B09C00153D60 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		EC5BBDAB2941B09C00153D60 /* UISlider_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISlider_Extension.swift; sourceTree = "<group>"; };
 		EC5BBDAC2941B09C00153D60 /* AVPlayer_Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVPlayer_Extension.swift; sourceTree = "<group>"; };
+		EC5FD1CC2987A7B700645CAF /* MainTabbarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainTabbarView.xib; sourceTree = "<group>"; };
+		EC5FD1CD2987A7B700645CAF /* MainTabBarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarVC.swift; sourceTree = "<group>"; };
 		EC62B6DB29644D1A00498060 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		EC62B6DC29644D1A00498060 /* UIFontExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		EC62B6DD29644D1A00498060 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -279,6 +283,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		EC5FD1CB2987A7B700645CAF /* MainTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				EC5FD1CC2987A7B700645CAF /* MainTabbarView.xib */,
+				EC5FD1CD2987A7B700645CAF /* MainTabBarVC.swift */,
+			);
+			path = MainTabBar;
+			sourceTree = "<group>";
+		};
 		EC62B6DA29644D1A00498060 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +316,7 @@
 		ECCA20082962B63100806646 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				EC5FD1CB2987A7B700645CAF /* MainTabBar */,
 				EC6AAA4C297698EC000191D1 /* CustomHud */,
 				ECCA20092962B63E00806646 /* Cell */,
 			);
@@ -437,6 +451,7 @@
 			files = (
 				EC5BBD812941A39700153D60 /* LaunchScreen.storyboard in Resources */,
 				EC5BBD7E2941A39700153D60 /* Assets.xcassets in Resources */,
+				EC5FD1CE2987A7B700645CAF /* MainTabbarView.xib in Resources */,
 				EC6AAA50297698EC000191D1 /* CustomHud.xib in Resources */,
 				ECAF4B632949A53F004169E7 /* Main.storyboard in Resources */,
 			);
@@ -558,6 +573,7 @@
 				EC070A452977CA2F00995186 /* EnterNamePopupVC.swift in Sources */,
 				EC62B6E629645AD300498060 /* RawdataConverter.swift in Sources */,
 				EC5BBD762941A39600153D60 /* ViewController.swift in Sources */,
+				EC5FD1CF2987A7B700645CAF /* MainTabBarVC.swift in Sources */,
 				EC62B6E229644D1A00498060 /* StringExtension.swift in Sources */,
 				EC5BBDAD2941B09C00153D60 /* String_Extension.swift in Sources */,
 				ECC499DF2947883800683B46 /* LocationList.swift in Sources */,

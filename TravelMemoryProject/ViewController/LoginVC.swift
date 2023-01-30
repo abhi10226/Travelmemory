@@ -21,6 +21,10 @@ class loginVC: CommonViewController {
             VideoService.instance.launchVideoRecorder(in: self, completion: nil)
         }
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    }
     func handler(handler: @escaping ((Bool) -> ())){
         completionHandler = handler
     }

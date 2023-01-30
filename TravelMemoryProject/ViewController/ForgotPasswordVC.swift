@@ -17,7 +17,10 @@ class ForgotPasswordVC: CommonViewController {
         // Do any additional setup after loading the view.
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    }
 
 }
 //MARK: - Action Method

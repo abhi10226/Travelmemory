@@ -11,6 +11,7 @@ import AVKit
 import AVFoundation
 import GoogleMaps
 import Alamofire
+var arrayVideoDetail: [VideoDetail] = []
 class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapViewDelegate {
     //MARK: - IBOutlet
     @IBOutlet weak var googleMapView: GMSMapView!
@@ -57,6 +58,10 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         if NewReachability().isConnectedToNetwork(), let _ = LoginModel.getUserDetailFromUserDefault() {
             self.getAllVideoFromServer()
         }
+       
+        
+            self.tabBarController?.tabBar.isHidden = false
+        
         
     }
     
@@ -81,13 +86,12 @@ extension ViewController {
     
     func setRegionWhenLatLongGet() {
         if CLLocationManager.locationServicesEnabled() {
-            mapKitView.showsUserLocation = true
+           
            // mapKitView.delegate = self
             if let latitude = latitude, let longitude = longitude {
                 mapKitView.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), latitudinalMeters: 10, longitudinalMeters: 10), animated: true)
             }
 //            fetchStadiumsOnMap(arrData)
-            locationManager.stopUpdatingLocation()
         } else {
             // Do something to let users know why they need to turn it on.
             
@@ -121,17 +125,17 @@ extension ViewController {
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         let region = googleMapView.projection.visibleRegion()
         print(region)
-        var arrOfCooridinate : [VideoDetail] = []
+        arrayVideoDetail = []
         var bound = GMSCoordinateBounds(region: region)
         for value in arrVideoDetail {
             print(value.lat)
             print(value.long)
            // region.contains(CLLocationCoordinate2D(latitude: VideoDetail.lat, longitude: VideoDetail.long))
             if bound.contains(CLLocationCoordinate2D(latitude: value.lat, longitude: value.long)) {
-                arrOfCooridinate.append(value)
+                arrayVideoDetail.append(value)
             }
         }
-        print(arrOfCooridinate.count)
+        print(arrayVideoDetail.count)
     }
     
     func mapView(_ mapView: GMSMapView, didEndDragging marker: GMSMarker) {

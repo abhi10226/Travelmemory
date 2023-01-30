@@ -30,6 +30,7 @@ class SystemVC: CommonViewController {
 //MARK: - UI Method
 extension SystemVC {
     func updateUI() {
+        self.tabBarController?.tabBar.isHidden = true
         autoUpload.isOn = _userDefault.bool(forKey: userDefaultIsUploadedToCloud) ? true : false
         removeFromDeviceSwitch.isOn = _userDefault.bool(forKey: userDefaultRemoveFromDevice) ? true : false
         if let userDetail = LoginModel.getUserDetailFromUserDefault() {
@@ -106,9 +107,6 @@ extension SystemVC {
         _userDefault.removeObject(forKey: userDefaultIsUploadedToCloud)
         self.navigationController?.popToRootViewController(animated: true)
     }
-    @IBAction func btnViewAllVideoTapped(_ sender: Any) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "LocationList") as? LocationList
-        self.navigationController?.pushViewController(vc!, animated: true)
-    }
+    
 }
 
