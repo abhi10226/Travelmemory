@@ -17,7 +17,7 @@ class UserLocation: NSObject  {
     var locationManger: CLLocationManager = {
         let locationManager = CLLocationManager()
         locationManager.activityType = .automotiveNavigation
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.distanceFilter = kCLDistanceFilterNone
         return locationManager
     }()
@@ -59,9 +59,9 @@ class UserLocation: NSObject  {
             let cancel = UIAlertAction(title: "cancle_btn_title", style: UIAlertAction.Style.cancel, handler: nil)
             let settings = UIAlertAction(title: "setting_btn_title", style: UIAlertAction.Style.default, handler: { (action) in
                 if #available(iOS 10.0, *) {
-                   // UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
                 } else {
-                   // UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
+                    UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
                 }
             })
             
@@ -96,7 +96,7 @@ extension UserLocation: CLLocationManagerDelegate {
             return
         }
         // This is where you do something with your location that's accurate enough.
-        guard let userLocation = locations.first else {
+        guard let userLocation = locations.last else {
             print("error getting user location")
             return
         }

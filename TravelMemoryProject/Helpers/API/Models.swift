@@ -103,6 +103,7 @@ class VideoDetail: NSObject {
     var long: Double
     var lat: Double
     var videoData: Data
+    var isUploaded : Bool = true
    /* var videoData: NSData {
         let url = URL(string: video)
         var data: NSData

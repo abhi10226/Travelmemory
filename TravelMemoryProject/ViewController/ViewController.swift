@@ -102,6 +102,7 @@ extension ViewController {
                                                         stadium.lat as! CLLocationDegrees, longitude: stadium.long as! CLLocationDegrees)
             marker.title = "I added this with a long tap"
             marker.snippet = ""
+            marker.isDraggable = true
             if let url = URL(string: stadium.video) {
                 marker.identifier = url
             }
@@ -109,12 +110,53 @@ extension ViewController {
          //   marker.VideoNSData = stadium.videoData as Data
             marker.map = googleMapView
         }
-        var bounds = GMSCoordinateBounds()
-        for marker in markers {
-            bounds = bounds.includingCoordinate(marker.position)
-        }
-        googleMapView.animate(with: GMSCameraUpdate.fit(bounds, with: UIEdgeInsets(top: 50.0 , left: 50.0 ,bottom: 50.0 ,right: 50.0)))
+//        var bounds = GMSCoordinateBounds()
+//        for marker in markers {
+//            bounds = bounds.includingCoordinate(marker.position)
+//        }
+//        googleMapView.animate(with: GMSCameraUpdate.fit(bounds, with: UIEdgeInsets(top: 50.0 , left: 50.0 ,bottom: 50.0 ,right: 50.0)))
+        
+        
     }
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        let region = googleMapView.projection.visibleRegion()
+        print(region)
+        var arrOfCooridinate : [VideoDetail] = []
+        var bound = GMSCoordinateBounds(region: region)
+        for value in arrVideoDetail {
+            print(value.lat)
+            print(value.long)
+           // region.contains(CLLocationCoordinate2D(latitude: VideoDetail.lat, longitude: VideoDetail.long))
+            if bound.contains(CLLocationCoordinate2D(latitude: value.lat, longitude: value.long)) {
+                arrOfCooridinate.append(value)
+            }
+        }
+        print(arrOfCooridinate.count)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didEndDragging marker: GMSMarker) {
+        if let marker = marker as? MyGMSMarker {
+            if let string = marker.identifier {
+                for (i,val) in arrVideoDetail.enumerated() {
+                    if val.video == "\(string)" {
+                        if val.isUploaded {
+                            arrVideoDetail[i].lat = marker.position.latitude
+                            arrVideoDetail[i].long = marker.position.longitude
+                            print("Integrate Edit menu api")
+                            callUpdateApi(updateDetail: arrVideoDetail[i])
+                        }else{
+                            print("update in local database")
+                        }
+                    }
+                }
+                print(string)
+                print(marker.position.latitude)
+                print(marker.position.longitude)
+            }
+        }
+        
+    }
+    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let marker = marker as? MyGMSMarker {
             if let string = marker.identifier {
@@ -146,6 +188,9 @@ extension ViewController {
         if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
             for data in arrdata {
                 var param : [String:Any] = [:]
+                print(data.fileName)
+                print(data.latitude)
+                print(data.longitude)
                 param["Id"] = "ComingFromLocalDatabase"
                 if let name = data.fileName {
                     param["name"] = name
@@ -156,6 +201,7 @@ extension ViewController {
                 param["lat"] = data.latitude
                 param["long"] = data.longitude
                 param["videoData"] = data.video
+                param["isUploaded"] = data.isSync
                 if !data.isSync,let _ = LoginModel.getUserDetailFromUserDefault() {
                     self.arrVideoDetail.append(VideoDetail(param))
                 } else {
@@ -276,7 +322,7 @@ class MyGMSMarker: GMSMarker {
     var identifier: URL?
     var VideoNSData: Data?
 }
-
+//MARK: - API Calling
 extension ViewController {
     func getAllVideoFromServer() {
         guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
@@ -305,5 +351,9 @@ extension ViewController {
                 }
                 
             }
+    }
+    func callUpdateApi(updateDetail:VideoDetail) {
+        print(updateDetail.lat)
+        print(updateDetail.long)
     }
 }
