@@ -99,6 +99,7 @@ extension ViewController {
     }
     
     func fetchStadiumsOnMap(_ stadiums: [VideoDetail]) {
+        self.onMapChangesArrayChange()
         var markers = [MyGMSMarker]()
         for stadium in stadiums {
             let marker = MyGMSMarker()
@@ -123,10 +124,14 @@ extension ViewController {
         
     }
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        onMapChangesArrayChange()
+    }
+    
+    func onMapChangesArrayChange() {
         let region = googleMapView.projection.visibleRegion()
         print(region)
         arrayVideoDetail = []
-        var bound = GMSCoordinateBounds(region: region)
+        let bound = GMSCoordinateBounds(region: region)
         for value in arrVideoDetail {
             print(value.lat)
             print(value.long)
@@ -137,7 +142,6 @@ extension ViewController {
         }
         print(arrayVideoDetail.count)
     }
-    
     func mapView(_ mapView: GMSMapView, didEndDragging marker: GMSMarker) {
         if let marker = marker as? MyGMSMarker {
             if let string = marker.identifier {
