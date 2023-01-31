@@ -148,46 +148,47 @@ extension VideoService {
     }
     
     func naviToEnterFileNamePopUp(arrUrl: [URL]) {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EnterNamePopupVC") as! EnterNamePopupVC
-        vc.handler { [weak self] result in
-            guard let `self` = self else {return}
-            Toast(text: "Video Uploading").show()
-            AVMutableComposition().mergeVideo(arrUrl) { url, error in
-                self.saveVideo(at: url!) { success in
-                    print("Merged")
-                    self.StopVideoBtnTap = false
-                    self.URLArr.removeAll()
-                    if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
-                        let newItem = TravelMemory(context:context)
-                        if let latitude = self.latitude,let longitude = self.longitude  {
-                            newItem.fileName = result
-                            newItem.videoUrl = success
-                            newItem.latitude = Double(latitude)
-                            newItem.longitude = Double(longitude)
-                            newItem.isSync = false
-                            newItem.createdAt = Date.currentDate()
-                            
-                            do {
-                                guard let URL = success as? URL else { return  }
-                                let videoData = try Data(contentsOf: URL)
-                                newItem.video = videoData
-                            } catch {
-                                debugPrint("Couldn't get Data from URL")
-                            }
-                            
-                            (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
-                        }else {
-                            Toast(text: "Please allow location access to save your video").show()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                exit(-1)
-                            }
+//        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EnterNamePopupVC") as! EnterNamePopupVC
+//        vc.handler { [weak self] result in
+//            guard let `self` = self else {return}
+//
+//        }
+//        vc.modalPresentationStyle  = .overFullScreen
+//        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+        Toast(text: "Video Uploading").show()
+        AVMutableComposition().mergeVideo(arrUrl) { url, error in
+            self.saveVideo(at: url!) { success in
+                print("Merged")
+                self.StopVideoBtnTap = false
+                self.URLArr.removeAll()
+                if let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext {
+                    let newItem = TravelMemory(context:context)
+                    if let latitude = self.latitude,let longitude = self.longitude  {
+                        newItem.fileName = success.lastPathComponent
+                        newItem.videoUrl = success
+                        newItem.latitude = Double(latitude)
+                        newItem.longitude = Double(longitude)
+                        newItem.isSync = false
+                        newItem.createdAt = Date.currentDate()
+                        
+                        do {
+                            guard let URL = success as? URL else { return  }
+                            let videoData = try Data(contentsOf: URL)
+                            newItem.video = videoData
+                        } catch {
+                            debugPrint("Couldn't get Data from URL")
+                        }
+                        
+                        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+                    }else {
+                        Toast(text: "Please allow location access to save your video").show()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            exit(-1)
                         }
                     }
                 }
             }
         }
-        vc.modalPresentationStyle  = .overFullScreen
-        UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
     }
     
     func launchVideoRecorder(in vc: UIViewController, completion: (() -> ())?) {

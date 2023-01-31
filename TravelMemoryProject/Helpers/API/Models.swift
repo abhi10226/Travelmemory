@@ -98,12 +98,12 @@ class JSONNull: Codable, Hashable {
 class VideoDetail: NSObject {
     
     var name: String
-    var Id: String
+    var Id: Int
     var video: String
     var long: Double
     var lat: Double
     var videoData: Data
-    var isUploaded : Bool = true
+    var isUploaded : Bool
    /* var videoData: NSData {
         let url = URL(string: video)
         var data: NSData
@@ -116,11 +116,12 @@ class VideoDetail: NSObject {
         return NSData()
     }*/
     init(_ dict: [String: Any]) {
-        Id = RawdataConverter.string(dict["Id"])
+        Id = RawdataConverter.integer(dict["id"])
         name = RawdataConverter.string(dict["name"])
         video = RawdataConverter.string(dict["video"])
         long = RawdataConverter.double(dict["long"])
         lat = RawdataConverter.double(dict["lat"])
+        isUploaded = dict["isUploaded"] as? Bool ?? true
         if let videoData = dict["videoData"] as? Data {
             self.videoData = videoData
         }else {

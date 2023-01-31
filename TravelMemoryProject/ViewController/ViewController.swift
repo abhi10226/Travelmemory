@@ -11,6 +11,8 @@ import AVKit
 import AVFoundation
 import GoogleMaps
 import Alamofire
+import Toaster
+import CoreData
 var arrayVideoDetail: [VideoDetail] = []
 class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapViewDelegate {
     //MARK: - IBOutlet
@@ -103,8 +105,15 @@ extension ViewController {
         var markers = [MyGMSMarker]()
         for stadium in stadiums {
             let marker = MyGMSMarker()
+            // I have taken a pin image which is a custom image
+            let serverMarkerImage = UIImage(named: "ic_serverPin")!
+            let localMarkerImage = UIImage(named: "ic_localPin")!
+            //creating a marker view
+            let serverMarkerView = UIImageView(image: serverMarkerImage)
+            let localMarkerView = UIImageView(image: localMarkerImage)
             marker.position = CLLocationCoordinate2D(latitude:
                                                         stadium.lat as! CLLocationDegrees, longitude: stadium.long as! CLLocationDegrees)
+            marker.iconView = stadium.isUploaded ? serverMarkerView : localMarkerView
             marker.title = "I added this with a long tap"
             marker.snippet = ""
             marker.isDraggable = true
@@ -112,17 +121,13 @@ extension ViewController {
                 marker.identifier = url
             }
             markers.append(marker)
-         //   marker.VideoNSData = stadium.videoData as Data
             marker.map = googleMapView
         }
-//        var bounds = GMSCoordinateBounds()
-//        for marker in markers {
-//            bounds = bounds.includingCoordinate(marker.position)
-//        }
-//        googleMapView.animate(with: GMSCameraUpdate.fit(bounds, with: UIEdgeInsets(top: 50.0 , left: 50.0 ,bottom: 50.0 ,right: 50.0)))
+
         
         
     }
+    
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
         onMapChangesArrayChange()
     }
@@ -142,6 +147,7 @@ extension ViewController {
         }
         print(arrayVideoDetail.count)
     }
+    
     func mapView(_ mapView: GMSMapView, didEndDragging marker: GMSMarker) {
         if let marker = marker as? MyGMSMarker {
             if let string = marker.identifier {
@@ -152,8 +158,11 @@ extension ViewController {
                             arrVideoDetail[i].long = marker.position.longitude
                             print("Integrate Edit menu api")
                             callUpdateApi(updateDetail: arrVideoDetail[i])
+                            checkVideoInLocalDataBase(updateDetail: arrVideoDetail[i])
                         }else{
-                            print("update in local database")
+                            arrVideoDetail[i].lat = marker.position.latitude
+                            arrVideoDetail[i].long = marker.position.longitude
+                            checkVideoInLocalDataBase(updateDetail: arrVideoDetail[i])
                         }
                     }
                 }
@@ -347,6 +356,7 @@ extension ViewController {
                             if let videoDetailArr = RawdataConverter.array(videoDetailData["videos"]) as? [[String:Any]] {
                                 for videoDetail in videoDetailArr {
                                     self.arrVideoDetail.append(VideoDetail(videoDetail))
+                                    print(videoDetail)
                                 }
                                 print(self.arrVideoDetail[0].videoData)
                                 self.fetchStadiumsOnMap(self.arrVideoDetail)
@@ -361,7 +371,55 @@ extension ViewController {
             }
     }
     func callUpdateApi(updateDetail:VideoDetail) {
-        print(updateDetail.lat)
-        print(updateDetail.long)
+        guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
+        let header : HTTPHeaders = ["Authorization": "Bearer \(userDetail.data.token)"]
+        let urlString = "https://ar_game.project-demo.info/travel_memories/public/api/update-video"
+        var params: [String:Any] = [:]
+        params["id"] = updateDetail.Id
+        params["name"] = updateDetail.name
+        params["lat"] = updateDetail.lat
+        params["long"] = updateDetail.long
+        AF.request(urlString,method: .post,parameters: params, headers: header)
+            .responseJSON { response in
+                switch response.result {
+                case .success( let value):
+                    if let videodata = value as? [String : Any] {
+                        print(videodata)
+                        if let message = videodata["message"] as? String {
+                            Toast(text: message).start()
+                        }
+                    }
+                    
+                case .failure( let value):
+                    print(value)
+                }
+                
+            }
+    }
+    func checkVideoInLocalDataBase(updateDetail:VideoDetail) {
+        if let coredataArray  = CoreDataManager.sharedManager.fetchAllPersons() {
+            for (i,data) in coredataArray.enumerated() {
+                if let videoName = data.fileName, videoName == updateDetail.name {
+                    
+                    guard let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {return}
+                    let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
+                    fetchRequest.predicate = NSPredicate(format: "fileName = %@", videoName)
+                    do {
+                        let test = try manageContext.fetch(fetchRequest)
+                        let objectUpdate = test[0] as! TravelMemory
+                        
+                        objectUpdate.setValue(updateDetail.lat , forKey: "latitude")
+                        objectUpdate.setValue(updateDetail.long , forKey: "longitude")
+                        do {
+                            try manageContext.save()
+                        } catch  {
+                            print("error----> \(error)")
+                        }
+                    } catch  {
+                        print("error----> \(error)")
+                    }
+                }
+            }
+        }
     }
 }
