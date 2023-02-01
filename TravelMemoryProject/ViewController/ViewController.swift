@@ -188,14 +188,19 @@ extension ViewController {
                 }*/
 
                 
-                print(string)
+               /* print(string)
                 let fileURL = NSURL(fileURLWithPath:"\(string)")
                 print(fileURL)
                 playerview = AVPlayer(url: string)
                 playerviewcontroller.player = playerview
                 self.present(playerviewcontroller, animated: true){
                     self.playerviewcontroller.player?.play()
+                }*/
+                let videoDetailFilterArr = arrayVideoDetail.filter{$0.video ==  "\(string)"}
+                if let videoDetailModel = videoDetailFilterArr.first,let index = arrayVideoDetail.firstIndex(of: videoDetailModel) {
+                    movePlayerController(indexNumber: index)
                 }
+                
             }
         }
         return true
@@ -422,4 +427,16 @@ extension ViewController {
             }
         }
     }
+}
+extension UIViewController {
+    
+    func movePlayerController(indexNumber : Int) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "PlayerVC") as! PlayerViewController
+        controller.modalPresentationStyle = .overFullScreen
+        controller.videoIndexNumber = indexNumber
+        controller.testContents = arrayVideoDetail
+        self.present(controller, animated: true, completion: nil)
+    }
+    
 }

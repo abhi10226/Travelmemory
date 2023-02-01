@@ -58,6 +58,28 @@
 		ECC499DF2947883800683B46 /* LocationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC499DE2947883800683B46 /* LocationList.swift */; };
 		ECC499E12947884000683B46 /* locationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC499E02947884000683B46 /* locationCell.swift */; };
 		ECCA20132962B84100806646 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCA20122962B84100806646 /* UserLocation.swift */; };
+		ECD0418E298A36EF00935442 /* ContentsMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04170298A36EF00935442 /* ContentsMaker.swift */; };
+		ECD0418F298A36EF00935442 /* ThemeMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04171298A36EF00935442 /* ThemeMaker.swift */; };
+		ECD04190298A36EF00935442 /* SampleThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04172298A36EF00935442 /* SampleThemes.swift */; };
+		ECD04191298A36EF00935442 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04173298A36EF00935442 /* PlayerViewController.swift */; };
+		ECD04192298A36EF00935442 /* DefaultConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04174298A36EF00935442 /* DefaultConfig.swift */; };
+		ECD04193298A36EF00935442 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = ECD04176298A36EF00935442 /* LICENSE */; };
+		ECD04194298A36EF00935442 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = ECD04177298A36EF00935442 /* README.md */; };
+		ECD04195298A36EF00935442 /* PlayerScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD0417B298A36EF00935442 /* PlayerScreenView.swift */; };
+		ECD04196298A36EF00935442 /* PlayerControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD0417C298A36EF00935442 /* PlayerControlView.swift */; };
+		ECD04197298A36EF00935442 /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD0417D298A36EF00935442 /* VideoCollectionViewCell.swift */; };
+		ECD04198298A36EF00935442 /* ContentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD0417E298A36EF00935442 /* ContentListView.swift */; };
+		ECD04199298A36EF00935442 /* InternalConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04180298A36EF00935442 /* InternalConfiguration.swift */; };
+		ECD0419A298A36EF00935442 /* SummerPlayerViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04181298A36EF00935442 /* SummerPlayerViewConfig.swift */; };
+		ECD0419B298A36EF00935442 /* CMTime+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04183298A36EF00935442 /* CMTime+extension.swift */; };
+		ECD0419C298A36EF00935442 /* Utills.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04184298A36EF00935442 /* Utills.swift */; };
+		ECD0419D298A36EF00935442 /* PlayerControlViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04186298A36EF00935442 /* PlayerControlViewDelegate.swift */; };
+		ECD0419E298A36EF00935442 /* PlayerScreenViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04187298A36EF00935442 /* PlayerScreenViewDelegate.swift */; };
+		ECD0419F298A36EF00935442 /* SummerPlayerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04188298A36EF00935442 /* SummerPlayerViewDelegate.swift */; };
+		ECD041A0298A36EF00935442 /* SummerPlayerViewTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD04189298A36EF00935442 /* SummerPlayerViewTheme.swift */; };
+		ECD041A1298A36EF00935442 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD0418A298A36EF00935442 /* Content.swift */; };
+		ECD041A2298A36EF00935442 /* SummerPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD0418B298A36EF00935442 /* SummerPlayerView.swift */; };
+		ECD041A3298A36EF00935442 /* buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECD0418D298A36EF00935442 /* buttons.xcassets */; };
 		ECD523D729486D6200A68E33 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC6ED42B2943451300218E05 /* MapKit.framework */; };
 		ECDD3C68296FE03A00BD1765 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDD3C67296FE03A00BD1765 /* CoreDataManager.swift */; };
 		ECDD3C6A296FFBD400BD1765 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDD3C69296FFBD400BD1765 /* Reachability.swift */; };
@@ -143,6 +165,28 @@
 		ECC499DE2947883800683B46 /* LocationList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationList.swift; sourceTree = "<group>"; };
 		ECC499E02947884000683B46 /* locationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = locationCell.swift; sourceTree = "<group>"; };
 		ECCA20122962B84100806646 /* UserLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
+		ECD04170298A36EF00935442 /* ContentsMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentsMaker.swift; sourceTree = "<group>"; };
+		ECD04171298A36EF00935442 /* ThemeMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeMaker.swift; sourceTree = "<group>"; };
+		ECD04172298A36EF00935442 /* SampleThemes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleThemes.swift; sourceTree = "<group>"; };
+		ECD04173298A36EF00935442 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		ECD04174298A36EF00935442 /* DefaultConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultConfig.swift; sourceTree = "<group>"; };
+		ECD04176298A36EF00935442 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		ECD04177298A36EF00935442 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		ECD0417B298A36EF00935442 /* PlayerScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerScreenView.swift; sourceTree = "<group>"; };
+		ECD0417C298A36EF00935442 /* PlayerControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerControlView.swift; sourceTree = "<group>"; };
+		ECD0417D298A36EF00935442 /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		ECD0417E298A36EF00935442 /* ContentListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListView.swift; sourceTree = "<group>"; };
+		ECD04180298A36EF00935442 /* InternalConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalConfiguration.swift; sourceTree = "<group>"; };
+		ECD04181298A36EF00935442 /* SummerPlayerViewConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummerPlayerViewConfig.swift; sourceTree = "<group>"; };
+		ECD04183298A36EF00935442 /* CMTime+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMTime+extension.swift"; sourceTree = "<group>"; };
+		ECD04184298A36EF00935442 /* Utills.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utills.swift; sourceTree = "<group>"; };
+		ECD04186298A36EF00935442 /* PlayerControlViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerControlViewDelegate.swift; sourceTree = "<group>"; };
+		ECD04187298A36EF00935442 /* PlayerScreenViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerScreenViewDelegate.swift; sourceTree = "<group>"; };
+		ECD04188298A36EF00935442 /* SummerPlayerViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummerPlayerViewDelegate.swift; sourceTree = "<group>"; };
+		ECD04189298A36EF00935442 /* SummerPlayerViewTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummerPlayerViewTheme.swift; sourceTree = "<group>"; };
+		ECD0418A298A36EF00935442 /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		ECD0418B298A36EF00935442 /* SummerPlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummerPlayerView.swift; sourceTree = "<group>"; };
+		ECD0418D298A36EF00935442 /* buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = buttons.xcassets; sourceTree = "<group>"; };
 		ECDD3C67296FE03A00BD1765 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		ECDD3C69296FFBD400BD1765 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -220,6 +264,7 @@
 				ECCA20082962B63100806646 /* XIB */,
 				ECCA200F2962B6A700806646 /* Delegate */,
 				ECCA20102962B6BC00806646 /* ViewController */,
+				ECD0416F298A36EE00935442 /* VideoClass */,
 				EC5BBDA72941B09C00153D60 /* Helpers */,
 				EC62B6DA29644D1A00498060 /* Extension */,
 				EC5BBDA42941AFFB00153D60 /* Service */,
@@ -356,6 +401,99 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		ECD0416F298A36EE00935442 /* VideoClass */ = {
+			isa = PBXGroup;
+			children = (
+				ECD04170298A36EF00935442 /* ContentsMaker.swift */,
+				ECD04171298A36EF00935442 /* ThemeMaker.swift */,
+				ECD04172298A36EF00935442 /* SampleThemes.swift */,
+				ECD04173298A36EF00935442 /* PlayerViewController.swift */,
+				ECD04174298A36EF00935442 /* DefaultConfig.swift */,
+				ECD04175298A36EF00935442 /* SummerPlayerView */,
+			);
+			path = VideoClass;
+			sourceTree = "<group>";
+		};
+		ECD04175298A36EF00935442 /* SummerPlayerView */ = {
+			isa = PBXGroup;
+			children = (
+				ECD04176298A36EF00935442 /* LICENSE */,
+				ECD04177298A36EF00935442 /* README.md */,
+				ECD04178298A36EF00935442 /* SummerPlayerView */,
+			);
+			path = SummerPlayerView;
+			sourceTree = "<group>";
+		};
+		ECD04178298A36EF00935442 /* SummerPlayerView */ = {
+			isa = PBXGroup;
+			children = (
+				ECD04179298A36EF00935442 /* Classes */,
+				ECD0418C298A36EF00935442 /* Assets */,
+			);
+			path = SummerPlayerView;
+			sourceTree = "<group>";
+		};
+		ECD04179298A36EF00935442 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				ECD0417A298A36EF00935442 /* UI */,
+				ECD0417F298A36EF00935442 /* Config */,
+				ECD04182298A36EF00935442 /* Utills */,
+				ECD04185298A36EF00935442 /* Delegate */,
+				ECD04189298A36EF00935442 /* SummerPlayerViewTheme.swift */,
+				ECD0418A298A36EF00935442 /* Content.swift */,
+				ECD0418B298A36EF00935442 /* SummerPlayerView.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		ECD0417A298A36EF00935442 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				ECD0417B298A36EF00935442 /* PlayerScreenView.swift */,
+				ECD0417C298A36EF00935442 /* PlayerControlView.swift */,
+				ECD0417D298A36EF00935442 /* VideoCollectionViewCell.swift */,
+				ECD0417E298A36EF00935442 /* ContentListView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		ECD0417F298A36EF00935442 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				ECD04180298A36EF00935442 /* InternalConfiguration.swift */,
+				ECD04181298A36EF00935442 /* SummerPlayerViewConfig.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		ECD04182298A36EF00935442 /* Utills */ = {
+			isa = PBXGroup;
+			children = (
+				ECD04183298A36EF00935442 /* CMTime+extension.swift */,
+				ECD04184298A36EF00935442 /* Utills.swift */,
+			);
+			path = Utills;
+			sourceTree = "<group>";
+		};
+		ECD04185298A36EF00935442 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				ECD04186298A36EF00935442 /* PlayerControlViewDelegate.swift */,
+				ECD04187298A36EF00935442 /* PlayerScreenViewDelegate.swift */,
+				ECD04188298A36EF00935442 /* SummerPlayerViewDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		ECD0418C298A36EF00935442 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				ECD0418D298A36EF00935442 /* buttons.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -449,8 +587,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECD04193298A36EF00935442 /* LICENSE in Resources */,
 				EC5BBD812941A39700153D60 /* LaunchScreen.storyboard in Resources */,
 				EC5BBD7E2941A39700153D60 /* Assets.xcassets in Resources */,
+				ECD041A3298A36EF00935442 /* buttons.xcassets in Resources */,
+				ECD04194298A36EF00935442 /* README.md in Resources */,
 				EC5FD1CE2987A7B700645CAF /* MainTabbarView.xib in Resources */,
 				EC6AAA50297698EC000191D1 /* CustomHud.xib in Resources */,
 				ECAF4B632949A53F004169E7 /* Main.storyboard in Resources */,
@@ -555,9 +696,13 @@
 			files = (
 				EC62B6EC29645D0600498060 /* LoginVC.swift in Sources */,
 				EC4E08042966A04F008EF5C3 /* Subclasses.swift in Sources */,
+				ECD041A2298A36EF00935442 /* SummerPlayerView.swift in Sources */,
+				ECD0419C298A36EF00935442 /* Utills.swift in Sources */,
+				ECD041A1298A36EF00935442 /* Content.swift in Sources */,
 				EC5BBDB02941B09C00153D60 /* UISlider_Extension.swift in Sources */,
 				EC5BBDA62941AFFC00153D60 /* VideoService.swift in Sources */,
 				EC4E080029669058008EF5C3 /* Models.swift in Sources */,
+				ECD04192298A36EF00935442 /* DefaultConfig.swift in Sources */,
 				EC62B6E829645B1E00498060 /* Enums.swift in Sources */,
 				EC6AAA522976BB3B000191D1 /* ForgotPasswordVC.swift in Sources */,
 				EC62B6E129644D1A00498060 /* UIFontExtension.swift in Sources */,
@@ -566,15 +711,27 @@
 				EC62B6E029644D1A00498060 /* UIColorExtension.swift in Sources */,
 				EC62B6EE29645DCE00498060 /* RegisterVC.swift in Sources */,
 				EC6AAA4F297698EC000191D1 /* CustomHud.swift in Sources */,
+				ECD0419A298A36EF00935442 /* SummerPlayerViewConfig.swift in Sources */,
+				ECD04190298A36EF00935442 /* SampleThemes.swift in Sources */,
+				ECD04191298A36EF00935442 /* PlayerViewController.swift in Sources */,
 				ECDD3C68296FE03A00BD1765 /* CoreDataManager.swift in Sources */,
+				ECD0419B298A36EF00935442 /* CMTime+extension.swift in Sources */,
 				ECC499E12947884000683B46 /* locationCell.swift in Sources */,
+				ECD0419D298A36EF00935442 /* PlayerControlViewDelegate.swift in Sources */,
+				ECD04197298A36EF00935442 /* VideoCollectionViewCell.swift in Sources */,
 				EC5BBD7C2941A39600153D60 /* TravelMemoryProject.xcdatamodeld in Sources */,
+				ECD041A0298A36EF00935442 /* SummerPlayerViewTheme.swift in Sources */,
 				EC5BBDAE2941B09C00153D60 /* UIAlertController_Extension.swift in Sources */,
 				EC070A452977CA2F00995186 /* EnterNamePopupVC.swift in Sources */,
+				ECD04198298A36EF00935442 /* ContentListView.swift in Sources */,
+				ECD0418E298A36EF00935442 /* ContentsMaker.swift in Sources */,
 				EC62B6E629645AD300498060 /* RawdataConverter.swift in Sources */,
 				EC5BBD762941A39600153D60 /* ViewController.swift in Sources */,
 				EC5FD1CF2987A7B700645CAF /* MainTabBarVC.swift in Sources */,
 				EC62B6E229644D1A00498060 /* StringExtension.swift in Sources */,
+				ECD04199298A36EF00935442 /* InternalConfiguration.swift in Sources */,
+				ECD0418F298A36EF00935442 /* ThemeMaker.swift in Sources */,
+				ECD04195298A36EF00935442 /* PlayerScreenView.swift in Sources */,
 				EC5BBDAD2941B09C00153D60 /* String_Extension.swift in Sources */,
 				ECC499DF2947883800683B46 /* LocationList.swift in Sources */,
 				EC2296DE296D931200360F14 /* GuestVC.swift in Sources */,
@@ -582,11 +739,14 @@
 				ECCA20132962B84100806646 /* UserLocation.swift in Sources */,
 				EC62B6EA29645B4100498060 /* Constant.swift in Sources */,
 				EC5BBDB12941B09C00153D60 /* AVPlayer_Extension.swift in Sources */,
+				ECD04196298A36EF00935442 /* PlayerControlView.swift in Sources */,
+				ECD0419F298A36EF00935442 /* SummerPlayerViewDelegate.swift in Sources */,
 				EC62B6E329644D1A00498060 /* DateExtension.swift in Sources */,
 				EC5BBD722941A39600153D60 /* AppDelegate.swift in Sources */,
 				EC5BBD742941A39600153D60 /* SceneDelegate.swift in Sources */,
 				EC070A432977B61A00995186 /* NeedToLoginPopUpVC.swift in Sources */,
 				EC5BBD9A2941A3F600153D60 /* WidgetExtension.intentdefinition in Sources */,
+				ECD0419E298A36EF00935442 /* PlayerScreenViewDelegate.swift in Sources */,
 				EC9B6002296D41BB001DE44A /* Extension.swift in Sources */,
 				ECDD3C6A296FFBD400BD1765 /* Reachability.swift in Sources */,
 				EC5BBDAF2941B09C00153D60 /* Device.swift in Sources */,

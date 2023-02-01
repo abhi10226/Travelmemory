@@ -116,15 +116,15 @@ extension LocationList: UITableViewDelegate, UITableViewDataSource {
             } catch let err {
                 print("Failed with error:", err)
             }*/
-        if let url = URL(string: data) {
+       /* if let url = URL(string: data) {
             playerview = AVPlayer(url: url)
             playerviewcontroller.player = playerview
             self.present(playerviewcontroller, animated: true){
                 self.playerviewcontroller.player?.play()
             }
-        }
+        }*/
            
-        
+        movePlayerController(indexNumber: indexPath.row)
     }
     
 }

@@ -1153,6 +1153,21 @@
             </objects>
             <point key="canvasLocation" x="12622" y="92"/>
         </scene>
+        <!--Player View Controller-->
+        <scene sceneID="2MR-wg-OUo">
+            <objects>
+                <viewController storyboardIdentifier="PlayerVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6hH-Es-BJ5" customClass="PlayerViewController" customModule="TravelMemoryProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hna-JX-8Wd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="fN2-4p-5Ei"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1kU-MJ-w7i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="13559" y="89"/>
+        </scene>
     </scenes>
     <designables>
         <designable name="1jo-hp-Uul">

@@ -104,6 +104,7 @@ class VideoDetail: NSObject {
     var lat: Double
     var videoData: Data
     var isUploaded : Bool
+    var contentStruct : Content
    /* var videoData: NSData {
         let url = URL(string: video)
         var data: NSData
@@ -127,6 +128,7 @@ class VideoDetail: NSObject {
         }else {
             self.videoData = Data()
         }
+        self.contentStruct = Content(title: "\(name)", url: "\(video)", thumbnail: "", totalTime: "")
     }
     
 }
