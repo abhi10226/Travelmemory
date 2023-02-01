@@ -138,8 +138,6 @@ extension ViewController {
         arrayVideoDetail = []
         let bound = GMSCoordinateBounds(region: region)
         for value in arrVideoDetail {
-            print(value.lat)
-            print(value.long)
            // region.contains(CLLocationCoordinate2D(latitude: VideoDetail.lat, longitude: VideoDetail.long))
             if bound.contains(CLLocationCoordinate2D(latitude: value.lat, longitude: value.long)) {
                 arrayVideoDetail.append(value)
@@ -166,9 +164,6 @@ extension ViewController {
                         }
                     }
                 }
-                print(string)
-                print(marker.position.latitude)
-                print(marker.position.longitude)
             }
         }
         
@@ -210,9 +205,6 @@ extension ViewController {
         if let arrdata  = CoreDataManager.sharedManager.fetchAllPersons() {
             for data in arrdata {
                 var param : [String:Any] = [:]
-                print(data.fileName)
-                print(data.latitude)
-                print(data.longitude)
                 param["Id"] = "ComingFromLocalDatabase"
                 if let name = data.fileName {
                     param["name"] = name
@@ -361,9 +353,7 @@ extension ViewController {
                             if let videoDetailArr = RawdataConverter.array(videoDetailData["videos"]) as? [[String:Any]] {
                                 for videoDetail in videoDetailArr {
                                     self.arrVideoDetail.append(VideoDetail(videoDetail))
-                                    print(videoDetail)
                                 }
-                                print(self.arrVideoDetail[0].videoData)
                                 self.fetchStadiumsOnMap(self.arrVideoDetail)
                             }
                         }
