@@ -110,6 +110,57 @@ class CoreDataManager {
         return nil
       }
     }
+    func updateLotLong(updateDetail:VideoDetail) {
+        if let coredataArray  = CoreDataManager.sharedManager.fetchAllPersons() {
+            for (i,data) in coredataArray.enumerated() {
+                guard let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {return}
+                let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
+
+                if let videoName = data.fileName, videoName == updateDetail.name {
+                    fetchRequest.predicate = NSPredicate(format: "fileName = %@", videoName)
+                    do {
+                        let test = try manageContext.fetch(fetchRequest)
+                        let objectUpdate = test[0] as! TravelMemory
+                         
+                            objectUpdate.setValue(updateDetail.lat , forKey: "latitude")
+                            objectUpdate.setValue(updateDetail.long , forKey: "longitude")
+                        
+                        do {
+                            try manageContext.save()
+                        } catch  {
+                            print("error----> \(error)")
+                        }
+                    } catch  {
+                        print("error----> \(error)")
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateVideoName(updateDetail:VideoDetail) {
+        if let coredataArray  = CoreDataManager.sharedManager.fetchAllPersons() {
+            for (i,data) in coredataArray.enumerated() {
+                guard let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {return}
+                let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
+                guard let url = data.videoUrl else {return}
+                fetchRequest.predicate = NSPredicate(format: "videoUrl = %@", url as CVarArg)
+                do {
+                    let test = try manageContext.fetch(fetchRequest)
+                    let objectUpdate = test[0] as! TravelMemory
+                    objectUpdate.setValue(updateDetail.name , forKey: "fileName")
+                    do {
+                        try manageContext.save()
+                    } catch  {
+                        print("error----> \(error)")
+                    }
+                } catch  {
+                    print("error----> \(error)")
+                }
+            }
+        }
+    
+    }
     /*
   //3
   func saveContext () {

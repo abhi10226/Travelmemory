@@ -56,15 +56,10 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         googleMapView.clear()
         fetchCoreData()
         createDirectoryPath()
-
         if NewReachability().isConnectedToNetwork(), let _ = LoginModel.getUserDetailFromUserDefault() {
             self.getAllVideoFromServer()
         }
-       
-        
-            self.tabBarController?.tabBar.isHidden = false
-        
-        
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     //MARK: GOOGLEMAP METHOD
@@ -156,11 +151,11 @@ extension ViewController {
                             arrVideoDetail[i].long = marker.position.longitude
                             print("Integrate Edit menu api")
                             callUpdateApi(updateDetail: arrVideoDetail[i])
-                            checkVideoInLocalDataBase(updateDetail: arrVideoDetail[i])
+                            CoreDataManager.sharedManager.updateLotLong(updateDetail: arrVideoDetail[i])
                         }else{
                             arrVideoDetail[i].lat = marker.position.latitude
                             arrVideoDetail[i].long = marker.position.longitude
-                            checkVideoInLocalDataBase(updateDetail: arrVideoDetail[i])
+                            CoreDataManager.sharedManager.updateLotLong(updateDetail: arrVideoDetail[i])
                         }
                     }
                 }
@@ -365,6 +360,20 @@ extension ViewController {
                 
             }
     }
+    
+    
+}
+extension UIViewController {
+    
+    func movePlayerController(indexNumber : Int) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "PlayerVC") as! PlayerViewController
+        controller.modalPresentationStyle = .overFullScreen
+        controller.videoIndexNumber = indexNumber
+        controller.testContents = arrayVideoDetail
+        self.present(controller, animated: true, completion: nil)
+    }
+    
     func callUpdateApi(updateDetail:VideoDetail) {
         guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
         let header : HTTPHeaders = ["Authorization": "Bearer \(userDetail.data.token)"]
@@ -379,7 +388,7 @@ extension ViewController {
                 switch response.result {
                 case .success( let value):
                     if let videodata = value as? [String : Any] {
-                        print(videodata)
+
                         if let message = videodata["message"] as? String {
                             Toast(text: message).start()
                         }
@@ -391,42 +400,4 @@ extension ViewController {
                 
             }
     }
-    func checkVideoInLocalDataBase(updateDetail:VideoDetail) {
-        if let coredataArray  = CoreDataManager.sharedManager.fetchAllPersons() {
-            for (i,data) in coredataArray.enumerated() {
-                if let videoName = data.fileName, videoName == updateDetail.name {
-                    
-                    guard let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {return}
-                    let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
-                    fetchRequest.predicate = NSPredicate(format: "fileName = %@", videoName)
-                    do {
-                        let test = try manageContext.fetch(fetchRequest)
-                        let objectUpdate = test[0] as! TravelMemory
-                        
-                        objectUpdate.setValue(updateDetail.lat , forKey: "latitude")
-                        objectUpdate.setValue(updateDetail.long , forKey: "longitude")
-                        do {
-                            try manageContext.save()
-                        } catch  {
-                            print("error----> \(error)")
-                        }
-                    } catch  {
-                        print("error----> \(error)")
-                    }
-                }
-            }
-        }
-    }
-}
-extension UIViewController {
-    
-    func movePlayerController(indexNumber : Int) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "PlayerVC") as! PlayerViewController
-        controller.modalPresentationStyle = .overFullScreen
-        controller.videoIndexNumber = indexNumber
-        controller.testContents = arrayVideoDetail
-        self.present(controller, animated: true, completion: nil)
-    }
-    
 }

@@ -35,7 +35,7 @@ public class SummerPlayerView: UIView {
     
     private var currentVideoIndex = 0
     
-    private var queuePlayer: AVQueuePlayer!
+    var queuePlayer: AVQueuePlayer!
     
     private var playerLayer: AVPlayerLayer?
     

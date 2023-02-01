@@ -76,10 +76,13 @@ extension PlayerViewController : SummerPlayerViewDelegate {
     
     func didPressHeaderLabel() {
         print("didPressHeaderLabel")
+        let singleSummerViewObj = self.summerViewTrigger() as! SummerPlayerView
+               singleSummerViewObj.queuePlayer.pause()
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EnterNamePopupVC") as! EnterNamePopupVC
         vc.handler { [weak self] result in
             guard let `self` = self else {return}
-            print(result)
+            self.updateVideoName(result)
+            singleSummerViewObj.queuePlayer.play()
         }
         vc.modalPresentationStyle  = .overFullScreen
         UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
@@ -93,13 +96,65 @@ extension PlayerViewController : SummerPlayerViewDelegate {
         print("didPressPlayButton")
     }
     
+    
 }
 
 extension PlayerViewController {
-    
+    func updateVideoName(_ videoName: String) {
+        let isNameAlreadyExit = testContents.filter { videoDetail in
+            return videoDetail.name == videoName
+        }
+        if isNameAlreadyExit.count == 0 {
+            testContents[videoIndexNumber].name = videoName
+            if testContents[videoIndexNumber].isUploaded {
+                callUpdateApi(updateDetail: testContents[videoIndexNumber])
+                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber])
+            }else {
+                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber])
+            }
+        }
+    }
     fileprivate func moveViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "MainVC")
         self.present(controller, animated: true, completion: nil)
     }
+    func summerViewTrigger() -> AnyObject {
+            let allSubviews = view.allSubViewsOf(type: SummerPlayerView.self)
+            for view1 in allSubviews {
+                let view11 = view1 as SummerPlayerView
+                return view11
+            }
+            return allSubviews[0]
+        }
 }
+extension UIView {
+
+    /** This is the function to get subViews of a view of a particular type
+*/
+    func subViews<T : UIView>(type : T.Type) -> [T]{
+        var all = [T]()
+        for view in self.subviews {
+            if let aView = view as? T{
+                all.append(aView)
+            }
+        }
+        return all
+    }
+
+
+/* This is a function to get subViews of a particular type from view recursively. It would look recursively in all subviews and return back the subviews of the type T */
+        func allSubViewsOf<T : UIView>(type : T.Type) -> [T]{
+            var all = [T]()
+            func getSubview(view: UIView) {
+                if let aView = view as? T{
+                all.append(aView)
+                }
+                guard view.subviews.count>0 else { return }
+                view.subviews.forEach{ getSubview(view: $0) }
+            }
+            getSubview(view: self)
+            return all
+        }
+    }
+
