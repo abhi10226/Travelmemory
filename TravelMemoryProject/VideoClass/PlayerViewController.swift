@@ -16,6 +16,7 @@ class PlayerViewController: UIViewController  {
     let defaultConfig = DefaultConfig()
     var testContents = arrayVideoDetail
     var videoIndexNumber = Int()
+    var completionHandler : ((String) -> Void)?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,9 +80,17 @@ extension PlayerViewController : SummerPlayerViewDelegate {
         let singleSummerViewObj = self.summerViewTrigger() as! SummerPlayerView
                singleSummerViewObj.queuePlayer.pause()
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EnterNamePopupVC") as! EnterNamePopupVC
+        videoIndexNumber = singleSummerViewObj.currentVideoIndex
+        vc.videoName = testContents[videoIndexNumber].contentStruct.title
         vc.handler { [weak self] result in
             guard let `self` = self else {return}
+            if result == "" {
+                singleSummerViewObj.queuePlayer.play()
+                return
+            }
             self.updateVideoName(result)
+            singleSummerViewObj.playerScreenView.headerTitle.text = "\(result)"
+            singleSummerViewObj.contents![self.videoIndexNumber].title = "\(result)"
             singleSummerViewObj.queuePlayer.play()
         }
         vc.modalPresentationStyle  = .overFullScreen
@@ -100,6 +109,9 @@ extension PlayerViewController : SummerPlayerViewDelegate {
 }
 
 extension PlayerViewController {
+    func handler(handler: @escaping ((String) -> ())) {
+        completionHandler = handler
+    }
     func updateVideoName(_ videoName: String) {
         let isNameAlreadyExit = testContents.filter { videoDetail in
             return videoDetail.name == videoName
@@ -107,11 +119,16 @@ extension PlayerViewController {
         if isNameAlreadyExit.count == 0 {
             testContents[videoIndexNumber].name = videoName
             if testContents[videoIndexNumber].isUploaded {
-                callUpdateApi(updateDetail: testContents[videoIndexNumber])
-                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber])
+                callUpdateApi(updateDetail: testContents[videoIndexNumber]) { result in
+                    self.completionHandler?(videoName)
+                }
+                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber], completionHandler: nil)
             }else {
-                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber])
+                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber]) { result in
+                    self.completionHandler?(videoName)
+                }
             }
+            
         }
     }
     fileprivate func moveViewController() {

@@ -32,6 +32,7 @@ class VideoService: NSObject {
     var URLArr = [URL]()
     var StopVideoBtnTap = false
     var time:Int = 0
+    var isComeFromHomeView: Bool = false
     lazy var lblTimmer: UILabel = {
         let lbl = UILabel()
         lbl.text = "00:00:00"
@@ -41,6 +42,7 @@ class VideoService: NSObject {
         return lbl
     }()
     typealias CompletionHandler = (_ success : URL) -> Void
+    var handler : (() -> Void)?
     private override init() {
         super.init()
         // determineMyCurrentLocation()
@@ -53,6 +55,10 @@ class VideoService: NSObject {
         StopVideoBtnTap = true
         picker.stopVideoCapture()
         lblTimmer.isHidden = true
+    }
+    
+    func handler(completionHandler: @escaping (()->Void)) {
+        self.handler = completionHandler
     }
 }
 
@@ -232,6 +238,11 @@ extension VideoService {
     @objc func video(videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
         let videoURL = URL(fileURLWithPath: videoPath as String)
         if !isReversebtnTapped {
+            if isComeFromHomeView {
+                handler?()
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 exit(-1)
             }

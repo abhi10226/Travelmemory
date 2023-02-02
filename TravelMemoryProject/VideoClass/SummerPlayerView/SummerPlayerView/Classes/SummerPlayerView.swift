@@ -25,7 +25,7 @@ public class SummerPlayerView: UIView {
         return self.queuePlayer.currentTime()
     }
     
-    private var contents: [Content]?
+    var contents: [Content]?
     
     private var isTouched = false
     
@@ -33,7 +33,7 @@ public class SummerPlayerView: UIView {
     
     private var playbackMode:PlaybackMode = .loopPlay
     
-    private var currentVideoIndex = 0
+    var currentVideoIndex = 0
     
     var queuePlayer: AVQueuePlayer!
     
@@ -41,7 +41,7 @@ public class SummerPlayerView: UIView {
     
     private let contentsListView = ContentListView()
     
-    private var playerScreenView = PlayerScreenView()
+    var playerScreenView = PlayerScreenView()
     
     private var playerControlView = PlayerControllView()
     
@@ -149,7 +149,7 @@ public class SummerPlayerView: UIView {
     }
     
     private func setupPlayerScreenView(_ standardRect: CGRect?) {
-        self.playerScreenView = PlayerScreenView(frame: CGRect(x: standardRect!.origin.x, y: standardRect!.origin.y + 30, width: standardRect!.width, height: standardRect!.height))
+        self.playerScreenView = PlayerScreenView(frame: CGRect(x: standardRect!.origin.x, y: standardRect!.origin.y + 60, width: standardRect!.width, height: standardRect!.height))
         self.playerScreenView.applyTheme(self.theme)
         self.playerScreenView.delegate = self
         addSubview(self.playerScreenView)
@@ -157,7 +157,7 @@ public class SummerPlayerView: UIView {
     
     private func setupPlayerControllView(_ wholeRect: CGRect?) {
         let quarterViewRect = Utills.getQuarterViewRect(wholeRect!)
-        self.playerControlView = PlayerControllView(frame: CGRect(x: quarterViewRect!.origin.x, y: 0, width: quarterViewRect!.width, height: quarterViewRect!.height))
+            self.playerControlView = PlayerControllView(frame: CGRect(x: quarterViewRect!.origin.x, y: 0, width: quarterViewRect!.width - 100, height: quarterViewRect!.height - 200))
         self.playerControlView.delegate = self
         addSubview(self.playerControlView)
     }
@@ -177,8 +177,7 @@ public class SummerPlayerView: UIView {
         
         setupPlayerScreenView(wholeRect)
         
-        setupPlayerControllView(wholeRect)
-        
+        setupPlayerControllView(standardRect)
 //        setupContentsListView(wholeRect)
         
     }

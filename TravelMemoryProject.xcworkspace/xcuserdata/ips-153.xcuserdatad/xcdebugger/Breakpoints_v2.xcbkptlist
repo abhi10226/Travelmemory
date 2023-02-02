@@ -7,17 +7,81 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "70B4B042-E2C1-45A6-8CD1-6300617E42B4"
-            shouldBeEnabled = "No"
+            uuid = "657584B4-C742-45D8-BDC2-43A5E3BB5A23"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TravelMemoryProject/ViewController/ViewController.swift"
+            filePath = "TravelMemoryProject/Helpers/CoreDataManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "mapView(_:didChange:)"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "updateLotLong(updateDetail:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0C8B020A-389D-42C5-9840-6C00F0EA6574"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TravelMemoryProject/Helpers/CoreDataManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "updateLotLong(updateDetail:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5B60AFEC-6125-4150-9523-AC571A429F28"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TravelMemoryProject/Helpers/CoreDataManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "updateLotLong(updateDetail:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5B60AFEC-6125-4150-9523-AC571A429F28 - 589310c25b5a1a6d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TravelMemoryProject.CoreDataManager.updateLotLong(updateDetail: TravelMemoryProject.VideoDetail) -&gt; ()"
+                  moduleName = "TravelMemoryProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ips-153/Travelmemory/TravelMemoryProject/Helpers/CoreDataManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
+                  offsetFromSymbolStart = "840">
+               </Location>
+               <Location
+                  uuid = "5B60AFEC-6125-4150-9523-AC571A429F28 - 589310c25b5a1a6d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TravelMemoryProject.CoreDataManager.updateLotLong(updateDetail: TravelMemoryProject.VideoDetail) -&gt; ()"
+                  moduleName = "TravelMemoryProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ips-153/Travelmemory/TravelMemoryProject/Helpers/CoreDataManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
+                  offsetFromSymbolStart = "880">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -53,7 +53,7 @@ class PlayerScreenView: UIView {
         return moreButton
     }()
     
-    lazy private var headerTitle: UILabel = {
+    lazy var headerTitle: UILabel = {
         let headerTitle = UILabel()
         headerTitle.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         headerTitle.text = "SummerPlayer view is working"
@@ -271,7 +271,7 @@ class PlayerScreenView: UIView {
         
         NSLayoutConstraint.activate([
             
-            bottomView.bottomAnchor.constraint(equalTo: bottomAnchor , constant: -30),
+            bottomView.bottomAnchor.constraint(equalTo: bottomAnchor , constant: -100),
             bottomView.heightAnchor.constraint(equalToConstant: 40),
             xConstraint,
             

@@ -12,9 +12,11 @@ import Toaster
 class EnterNamePopupVC: UIViewController {
     @IBOutlet weak var txtEnterName: HoshiTextField!
     var completionHandler : ((String) -> ())?
+    var videoName: String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print(videoName)
+        txtEnterName.text = videoName
         // Do any additional setup after loading the view.
     }
     
@@ -47,6 +49,10 @@ extension EnterNamePopupVC {
         Toast(text: result.error).show()
     }
     
+    @IBAction func btnCancelTapped(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+        completionHandler?("")
+    }
 }
 
 //MARK: - Validation
@@ -57,6 +63,11 @@ extension EnterNamePopupVC {
         if String.validate(value: txtEnterName.text) {
             result.valid = false
             result.error = "Please enter filename to save in Database."
+            return result
+        }
+        if txtEnterName.text == videoName {
+            result.valid = false
+            result.error = "As you did not change name please update name."
             return result
         }
         return result

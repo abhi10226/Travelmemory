@@ -138,7 +138,7 @@ class CoreDataManager {
         }
     }
     
-    func updateVideoName(updateDetail:VideoDetail) {
+    func updateVideoName(updateDetail:VideoDetail,completionHandler : ((Bool) -> Void)?) {
         if let coredataArray  = CoreDataManager.sharedManager.fetchAllPersons() {
             for (i,data) in coredataArray.enumerated() {
                 guard let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {return}
@@ -151,6 +151,7 @@ class CoreDataManager {
                     objectUpdate.setValue(updateDetail.name , forKey: "fileName")
                     do {
                         try manageContext.save()
+                        completionHandler?(true)
                     } catch  {
                         print("error----> \(error)")
                     }

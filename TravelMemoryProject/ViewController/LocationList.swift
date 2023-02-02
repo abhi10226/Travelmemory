@@ -124,7 +124,10 @@ extension LocationList: UITableViewDelegate, UITableViewDataSource {
             }
         }*/
            
-        movePlayerController(indexNumber: indexPath.row)
+        movePlayerController(indexNumber: indexPath.row) { result in
+            arrayVideoDetail[indexPath.row].name = result
+            self.locationTblView.reloadData()
+        }
     }
     
 }

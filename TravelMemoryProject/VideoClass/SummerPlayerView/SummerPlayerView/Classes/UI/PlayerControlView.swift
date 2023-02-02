@@ -74,7 +74,7 @@ class PlayerControllView: UIView {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: self.topAnchor , constant: 15),
+            backButton.topAnchor.constraint(equalTo: self.topAnchor , constant: 25),
             backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor , constant: 30),
             
 //            airplayButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),

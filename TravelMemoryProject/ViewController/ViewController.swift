@@ -51,6 +51,10 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.updateUI()
+    }
+    
+    func updateUI() {
         arrData = []
         arrVideoDetail = []
         googleMapView.clear()
@@ -61,7 +65,6 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         }
         self.tabBarController?.tabBar.isHidden = false
     }
-    
     //MARK: GOOGLEMAP METHOD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
@@ -73,9 +76,21 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         
     }
     
+}
+//MARK: - Action Method
+extension ViewController {
     @IBAction func btnSystemTapped(_ sender: UIButton) {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SystemVC") as! SystemVC
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @IBAction func btnRecTapped(_ sender : UIButton) {
+        VideoService.instance.isComeFromHomeView = true
+        VideoService.instance.launchVideoRecorder(in: self, completion: nil)
+        VideoService.instance.handler {
+            self.updateUI()
+        }
+        
     }
 }
 //MARK: - Application Mehod
@@ -100,6 +115,7 @@ extension ViewController {
         var markers = [MyGMSMarker]()
         for stadium in stadiums {
             let marker = MyGMSMarker()
+            print("id==",stadium.Id)
             // I have taken a pin image which is a custom image
             let serverMarkerImage = UIImage(named: "ic_serverPin")!
             let localMarkerImage = UIImage(named: "ic_localPin")!
@@ -133,6 +149,7 @@ extension ViewController {
         arrayVideoDetail = []
         let bound = GMSCoordinateBounds(region: region)
         for value in arrVideoDetail {
+            print(value.Id)
            // region.contains(CLLocationCoordinate2D(latitude: VideoDetail.lat, longitude: VideoDetail.long))
             if bound.contains(CLLocationCoordinate2D(latitude: value.lat, longitude: value.long)) {
                 arrayVideoDetail.append(value)
@@ -150,7 +167,7 @@ extension ViewController {
                             arrVideoDetail[i].lat = marker.position.latitude
                             arrVideoDetail[i].long = marker.position.longitude
                             print("Integrate Edit menu api")
-                            callUpdateApi(updateDetail: arrVideoDetail[i])
+                            callUpdateApi(updateDetail: arrVideoDetail[i], CompletionHandler: nil)
                             CoreDataManager.sharedManager.updateLotLong(updateDetail: arrVideoDetail[i])
                         }else{
                             arrVideoDetail[i].lat = marker.position.latitude
@@ -188,7 +205,12 @@ extension ViewController {
                 }*/
                 let videoDetailFilterArr = arrayVideoDetail.filter{$0.video ==  "\(string)"}
                 if let videoDetailModel = videoDetailFilterArr.first,let index = arrayVideoDetail.firstIndex(of: videoDetailModel) {
-                    movePlayerController(indexNumber: index)
+                    movePlayerController(indexNumber: index) { result in
+                        self.updateUI()
+                        if _userDefault.bool(forKey: userDefaultIsUploadedToCloud) {
+                            _appDelegator.uploadSingleVideo()
+                        }
+                    }
                 }
                 
             }
@@ -365,16 +387,20 @@ extension ViewController {
 }
 extension UIViewController {
     
-    func movePlayerController(indexNumber : Int) {
+    func movePlayerController(indexNumber : Int,completionHandler: @escaping ((String)-> Void)) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: "PlayerVC") as! PlayerViewController
         controller.modalPresentationStyle = .overFullScreen
         controller.videoIndexNumber = indexNumber
         controller.testContents = arrayVideoDetail
+        controller.completionHandler = { result in
+            print(result)
+            completionHandler(result)
+        }
         self.present(controller, animated: true, completion: nil)
     }
     
-    func callUpdateApi(updateDetail:VideoDetail) {
+    func callUpdateApi(updateDetail:VideoDetail,CompletionHandler : ((Bool) -> Void)?) {
         guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
         let header : HTTPHeaders = ["Authorization": "Bearer \(userDetail.data.token)"]
         let urlString = "https://ar_game.project-demo.info/travel_memories/public/api/update-video"
@@ -383,6 +409,7 @@ extension UIViewController {
         params["name"] = updateDetail.name
         params["lat"] = updateDetail.lat
         params["long"] = updateDetail.long
+        print("id==",updateDetail.Id)
         AF.request(urlString,method: .post,parameters: params, headers: header)
             .responseJSON { response in
                 switch response.result {
@@ -391,6 +418,7 @@ extension UIViewController {
 
                         if let message = videodata["message"] as? String {
                             Toast(text: message).start()
+                            CompletionHandler?(true)
                         }
                     }
                     

@@ -3,7 +3,7 @@
 import Foundation
 
 public struct Content {
-    let title: String
+    var title: String
     let url: String
     let thumbnail: String
     let totalTime: String
