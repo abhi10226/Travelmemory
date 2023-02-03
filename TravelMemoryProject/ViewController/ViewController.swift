@@ -58,10 +58,16 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         arrData = []
         arrVideoDetail = []
         googleMapView.clear()
-        fetchCoreData()
-        createDirectoryPath()
-        if NewReachability().isConnectedToNetwork(), let _ = LoginModel.getUserDetailFromUserDefault() {
-            self.getAllVideoFromServer()
+        if !NewReachability().isConnectedToNetwork() {
+            fetchCoreData()
+        }else {
+            if let _ = LoginModel.getUserDetailFromUserDefault() {
+                self.getAllVideoFromServer {
+                    self.fetchCoreData()
+                }
+            }else{
+                self.fetchCoreData()
+            }
         }
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -88,7 +94,9 @@ extension ViewController {
         VideoService.instance.isComeFromHomeView = true
         VideoService.instance.launchVideoRecorder(in: self, completion: nil)
         VideoService.instance.handler {
-            self.updateUI()
+            if _userDefault.bool(forKey: userDefaultIsUploadedToCloud) {
+                _appDelegator.uploadSingleVideo()
+            }
         }
         
     }
@@ -207,9 +215,6 @@ extension ViewController {
                 if let videoDetailModel = videoDetailFilterArr.first,let index = arrayVideoDetail.firstIndex(of: videoDetailModel) {
                     movePlayerController(indexNumber: index) { result in
                         self.updateUI()
-                        if _userDefault.bool(forKey: userDefaultIsUploadedToCloud) {
-                            _appDelegator.uploadSingleVideo()
-                        }
                     }
                 }
                 
@@ -245,6 +250,7 @@ extension ViewController {
             }
             if let userDetail = LoginModel.getUserDetailFromUserDefault() {
                 print(userDetail.data.name)
+                self.fetchStadiumsOnMap(self.arrVideoDetail)
             }else {
                 self.fetchStadiumsOnMap(self.arrVideoDetail)
             }
@@ -355,7 +361,7 @@ class MyGMSMarker: GMSMarker {
 }
 //MARK: - API Calling
 extension ViewController {
-    func getAllVideoFromServer() {
+    func getAllVideoFromServer(completionHandler: @escaping (() -> Void)) {
         guard let userDetail = LoginModel.getUserDetailFromUserDefault() else {return}
         
         let header : HTTPHeaders = ["Authorization": "Bearer \(userDetail.data.token)"]
@@ -374,6 +380,7 @@ extension ViewController {
                                 self.fetchStadiumsOnMap(self.arrVideoDetail)
                             }
                         }
+                        completionHandler()
                     }
                     
                 case .failure( let value):

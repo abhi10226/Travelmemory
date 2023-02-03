@@ -18,8 +18,6 @@ class UserLocation: NSObject  {
         let locationManager = CLLocationManager()
         locationManager.activityType = .automotiveNavigation
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = kCLLocationAccuracyHundredMeters
-        locationManager.requestAlwaysAuthorization()
         return locationManager
     }()
     

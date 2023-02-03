@@ -32,6 +32,7 @@ class VideoService: NSObject {
     var URLArr = [URL]()
     var StopVideoBtnTap = false
     var time:Int = 0
+    var timer : Timer?
     var isComeFromHomeView: Bool = false
     lazy var lblTimmer: UILabel = {
         let lbl = UILabel()
@@ -206,9 +207,11 @@ extension VideoService {
             vc.present(picker, animated: true) {
                 
                 picker.startVideoCapture()
+                self.lblTimmer.text = "00:00:00"
+                self.lblTimmer.isHidden = false
                 Toast(text: "Recording Started").show()
-                Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.stopVideoRecording), userInfo: nil, repeats: false)
-                Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timmer), userInfo: nil, repeats: true)
+                self.timer = Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.stopVideoRecording), userInfo: nil, repeats: false)
+                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timmer), userInfo: nil, repeats: true)
                 completion?()
             }
         }
@@ -240,10 +243,14 @@ extension VideoService {
         if !isReversebtnTapped {
             if isComeFromHomeView {
                 handler?()
-                picker.dismiss(animated: true, completion: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.picker.dismiss(animated: true, completion: nil)
+                    self.time = 0
+                    self.timer?.invalidate()
+                }
                 return
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 exit(-1)
             }
         }
