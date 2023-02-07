@@ -13,8 +13,8 @@ class SystemVC: CommonViewController {
     
     @IBOutlet weak var removeFromDeviceSwitch: UISwitch!
     @IBOutlet weak var autoUpload: UISwitch!
-    @IBOutlet weak var lblGuestMode: UILabel!
     @IBOutlet weak var btnLogout: UIButton!
+    @IBOutlet weak var btnLogin : UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,10 +34,10 @@ extension SystemVC {
         autoUpload.isOn = _userDefault.bool(forKey: userDefaultIsUploadedToCloud) ? true : false
         removeFromDeviceSwitch.isOn = _userDefault.bool(forKey: userDefaultRemoveFromDevice) ? true : false
         if let userDetail = LoginModel.getUserDetailFromUserDefault() {
-            lblGuestMode.text = "Welcome, \(userDetail.data.name)"
+            self.btnLogin.isHidden = true
             self.btnLogout.isHidden = false
         }else {
-            lblGuestMode.text = "Welcome, Guest"
+            self.btnLogin.isHidden = false
             self.btnLogout.isHidden = true
         }
     }
@@ -106,6 +106,10 @@ extension SystemVC {
         _userDefault.removeObject(forKey: userDefaultRemoveFromDevice)
         _userDefault.removeObject(forKey: userDefaultIsUploadedToCloud)
         self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @IBAction func btnLoginTapped(_ sender: UIButton) {
+        naviToLoginVC()
     }
     
 }

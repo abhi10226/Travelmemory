@@ -65,7 +65,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3PA-wB-Jeo" customClass="APRoundedView" customModule="TravelMemoryProject" customModuleProvider="target">
                                 <rect key="frame" x="10" y="802" width="60" height="60"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jCm-9z-8aw">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_rec" translatesAutoresizingMaskIntoConstraints="NO" id="w7V-nn-ePt">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jCm-9z-8aw">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -74,7 +77,6 @@
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="ic_rec"/>
                                         <connections>
                                             <action selector="btnRecTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sEE-KB-tWh"/>
                                         </connections>
@@ -82,8 +84,12 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="jCm-9z-8aw" firstAttribute="leading" secondItem="3PA-wB-Jeo" secondAttribute="leading" id="A54-3F-QcD"/>
+                                    <constraint firstAttribute="trailing" secondItem="w7V-nn-ePt" secondAttribute="trailing" id="MKF-Y4-oYi"/>
                                     <constraint firstItem="jCm-9z-8aw" firstAttribute="top" secondItem="3PA-wB-Jeo" secondAttribute="top" id="TiR-Eq-HqK"/>
                                     <constraint firstAttribute="trailing" secondItem="jCm-9z-8aw" secondAttribute="trailing" id="fMq-Ie-NkJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="w7V-nn-ePt" secondAttribute="bottom" id="fih-TY-PiC"/>
+                                    <constraint firstItem="w7V-nn-ePt" firstAttribute="leading" secondItem="3PA-wB-Jeo" secondAttribute="leading" id="hVU-bg-Paa"/>
+                                    <constraint firstItem="w7V-nn-ePt" firstAttribute="top" secondItem="3PA-wB-Jeo" secondAttribute="top" id="nw3-Hu-oxD"/>
                                     <constraint firstAttribute="bottom" secondItem="jCm-9z-8aw" secondAttribute="bottom" id="pvT-ho-16e"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -754,16 +760,10 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="jLb-3M-CWr">
-                                <rect key="frame" x="20" y="128" width="374" height="191"/>
+                                <rect key="frame" x="20" y="128" width="374" height="212"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Guest Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sQt-hE-Qv5">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="24"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                        <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="jGX-AE-uxq">
-                                        <rect key="frame" x="0.0" y="44" width="374" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Upload To Cloud" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJI-o3-bWw">
                                                 <rect key="frame" x="0.0" y="0.0" width="305" height="31"/>
@@ -781,7 +781,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="81" translatesAutoresizingMaskIntoConstraints="NO" id="i7s-Vg-L8Y">
-                                        <rect key="frame" x="0.0" y="95" width="374" height="31"/>
+                                        <rect key="frame" x="0.0" y="51" width="374" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remove From Device" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHD-Ee-dL1">
                                                 <rect key="frame" x="0.0" y="0.0" width="244" height="31"/>
@@ -798,24 +798,47 @@
                                             </switch>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5J0-Ur-aKu" customClass="APRoundedButton" customModule="TravelMemoryProject" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="146" width="374" height="45"/>
-                                        <color key="backgroundColor" red="1" green="0.14901960780000001" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="45" id="684-BX-qkS"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Logout">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="fullRounded" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="btnLogoutTapped:" destination="fGD-R4-84f" eventType="touchUpInside" id="2DD-r4-fLI"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="4Dr-Oh-QJo">
+                                        <rect key="frame" x="0.0" y="102" width="374" height="110"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5J0-Ur-aKu" customClass="APRoundedButton" customModule="TravelMemoryProject" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="45"/>
+                                                <color key="backgroundColor" red="1" green="0.14901960780000001" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="684-BX-qkS"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Logout">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="fullRounded" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="btnLogoutTapped:" destination="fGD-R4-84f" eventType="touchUpInside" id="2DD-r4-fLI"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KKW-G0-bF2" customClass="APRoundedButton" customModule="TravelMemoryProject" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="65" width="374" height="45"/>
+                                                <color key="backgroundColor" red="1" green="0.14901960780000001" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="BgA-nb-Hta"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Login">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="fullRounded" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="btnLoginTapped:" destination="fGD-R4-84f" eventType="touchUpInside" id="3Pv-vi-gfw"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -834,8 +857,8 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="autoUpload" destination="drk-Ou-L9Z" id="MPy-RX-eMa"/>
+                        <outlet property="btnLogin" destination="KKW-G0-bF2" id="l9D-6r-Uh9"/>
                         <outlet property="btnLogout" destination="5J0-Ur-aKu" id="Tbk-tk-bNJ"/>
-                        <outlet property="lblGuestMode" destination="sQt-hE-Qv5" id="UdU-2E-vRt"/>
                         <outlet property="removeFromDeviceSwitch" destination="nkw-Ol-AJb" id="8p9-Zo-d4d"/>
                     </connections>
                 </viewController>
@@ -1241,6 +1264,9 @@
         </designable>
         <designable name="Jwf-5Q-pDJ">
             <size key="intrinsicContentSize" width="118.5" height="23"/>
+        </designable>
+        <designable name="KKW-G0-bF2">
+            <size key="intrinsicContentSize" width="52" height="36"/>
         </designable>
         <designable name="KUf-wX-6d1">
             <size key="intrinsicContentSize" width="146.5" height="23"/>
