@@ -94,7 +94,7 @@ extension MainTabBarVC {
     func selectTab(atIndex index: Int) {
         for (idx,imgv) in lblName.enumerated() {
             if idx == index {
-                lblName[idx].textColor = .red
+                lblName[idx].textColor = .black
             }else{
                 lblName[idx].textColor = .white
             }

@@ -175,7 +175,9 @@ extension ViewController {
                             arrVideoDetail[i].lat = marker.position.latitude
                             arrVideoDetail[i].long = marker.position.longitude
                             print("Integrate Edit menu api")
-                            callUpdateApi(updateDetail: arrVideoDetail[i], CompletionHandler: nil)
+                            callUpdateApi(updateDetail: arrVideoDetail[i]) { result in
+                                self.updateUI()
+                            }
                             CoreDataManager.sharedManager.updateLotLong(updateDetail: arrVideoDetail[i])
                         }else{
                             arrVideoDetail[i].lat = marker.position.latitude
@@ -377,7 +379,6 @@ extension ViewController {
                                 for videoDetail in videoDetailArr {
                                     self.arrVideoDetail.append(VideoDetail(videoDetail))
                                 }
-                                self.fetchStadiumsOnMap(self.arrVideoDetail)
                             }
                         }
                         completionHandler()

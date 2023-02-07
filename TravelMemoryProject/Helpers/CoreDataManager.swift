@@ -138,23 +138,30 @@ class CoreDataManager {
         }
     }
     
-    func updateVideoName(updateDetail:VideoDetail,completionHandler : ((Bool) -> Void)?) {
+    func updateVideoName(priviousName: String,updateDetail:VideoDetail,completionHandler : ((Bool) -> Void)?) {
+        print(priviousName)
         if let coredataArray  = CoreDataManager.sharedManager.fetchAllPersons() {
             for (i,data) in coredataArray.enumerated() {
                 guard let manageContext = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else {return}
                 let fetchRequest : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "TravelMemory")
-                guard let url = data.videoUrl else {return}
-                fetchRequest.predicate = NSPredicate(format: "videoUrl = %@", url as CVarArg)
+                
+                fetchRequest.predicate = NSPredicate(format: "fileName = %@", priviousName)
                 do {
-                    let test = try manageContext.fetch(fetchRequest)
-                    let objectUpdate = test[0] as! TravelMemory
+                     let test = try manageContext.fetch(fetchRequest)
+                    print(test)
+                    if test.isEmpty {
+                        return
+                    }
+                     let objectUpdate = test[0] as! TravelMemory
                     objectUpdate.setValue(updateDetail.name , forKey: "fileName")
                     do {
                         try manageContext.save()
                         completionHandler?(true)
+                        return
                     } catch  {
                         print("error----> \(error)")
                     }
+                    
                 } catch  {
                     print("error----> \(error)")
                 }

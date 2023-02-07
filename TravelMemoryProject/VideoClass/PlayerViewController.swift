@@ -117,14 +117,15 @@ extension PlayerViewController {
             return videoDetail.name == videoName
         }
         if isNameAlreadyExit.count == 0 {
+            let priviousFileName:String = testContents[videoIndexNumber].name
             testContents[videoIndexNumber].name = videoName
             if testContents[videoIndexNumber].isUploaded {
                 callUpdateApi(updateDetail: testContents[videoIndexNumber]) { result in
                     self.completionHandler?(videoName)
                 }
-                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber], completionHandler: nil)
+                CoreDataManager.sharedManager.updateVideoName(priviousName: priviousFileName, updateDetail: testContents[videoIndexNumber], completionHandler: nil)
             }else {
-                CoreDataManager.sharedManager.updateVideoName(updateDetail: testContents[videoIndexNumber]) { result in
+                CoreDataManager.sharedManager.updateVideoName(priviousName: priviousFileName, updateDetail: testContents[videoIndexNumber]) { result in
                     self.completionHandler?(videoName)
                 }
             }
