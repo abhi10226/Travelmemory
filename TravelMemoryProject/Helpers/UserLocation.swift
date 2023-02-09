@@ -17,7 +17,8 @@ class UserLocation: NSObject  {
     var locationManger: CLLocationManager = {
         let locationManager = CLLocationManager()
         locationManager.activityType = .automotiveNavigation
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = kCLDistanceFilterNone
         return locationManager
     }()
     
@@ -101,8 +102,8 @@ extension UserLocation: CLLocationManagerDelegate {
         }
         DispatchQueue.main.async {
             self.completionBlock?(userLocation,nil)
-            manager.stopUpdatingLocation()
-            self.completionBlock = nil
+//            manager.stopUpdatingLocation()
+//            self.completionBlock = nil
         }
         
     }

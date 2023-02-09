@@ -34,6 +34,7 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         if isFromWidget {
+            VideoService.instance.isComeFromHomeView = false
             VideoService.instance.launchVideoRecorder(in: self, completion: nil)
             VideoService.instance.delegate = self
         }
@@ -43,8 +44,8 @@ class ViewController: CommonViewController,CLLocationManagerDelegate, GMSMapView
         self.googleMapView.isMyLocationEnabled = true
         self.googleMapView.delegate = self
         self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.distanceFilter = 1000
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = kCLDistanceFilterNone
         self.locationManager.startUpdatingLocation()
         
     }
